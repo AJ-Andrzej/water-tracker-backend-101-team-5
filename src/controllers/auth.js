@@ -110,6 +110,93 @@ export const getProfileInfoController = async (req, res) => {
   });
 };
 // updateProfileInfoController
+// export const updateProfileInfoController = async (req, res) => {
+//   const userId = req.user._id;
+//   const user = await UsersCollection.findById(userId);
+
+//   if (!user) {
+//     throw createHttpError(404, 'User not found');
+//   }
+
+//   const allowedFields = ['name', 'gender', 'dailyNorma', 'password', 'email'];
+//   const fieldsToUpdate = {};
+
+//   Object.keys(req.body).forEach((field) => {
+//     if (allowedFields.includes(field)) {
+//       fieldsToUpdate[field] = req.body[field];
+//     }
+//   });
+
+//   if (Object.keys(fieldsToUpdate).length === 0) {
+//     throw createHttpError(400, 'No valid fields to update');
+//   }
+
+//   const updatedUser = await UsersCollection.findByIdAndUpdate(
+//     userId,
+//     { $set: fieldsToUpdate },
+//     { new: true },
+//   );
+//   res.status(200).json({
+//     status: 200,
+//     message: 'User profile updated successfully',
+//     data: updatedUser,
+//   });
+// };
+// export const updateProfileInfoController = async (req, res) => {
+//   const userId = req.user._id;
+//   const user = await UsersCollection.findById(userId);
+
+//   if (!user) {
+//     throw createHttpError(404, 'User not found');
+//   }
+
+//   const allowedFields = ['name', 'gender', 'dailyNorma', 'password', 'email'];
+//   const fieldsToUpdate = {};
+
+//   for (const field of Object.keys(req.body)) {
+//     if (allowedFields.includes(field)) {
+//       if (field === 'password') {
+//         const isPasswordMatch = await bcrypt.compare(
+//           req.body.password,
+//           user.password,
+//         );
+//         if (isPasswordMatch) {
+//           throw createHttpError(
+//             400,
+//             'New password must be different from the current password',
+//           );
+//         }
+//         fieldsToUpdate[field] = await bcrypt.hash(req.body[field], 10);
+//       } else if (field === 'email') {
+//         if (req.body.email === user.email) {
+//           throw createHttpError(
+//             400,
+//             'New email must be different from the current email',
+//           );
+//         }
+//         fieldsToUpdate[field] = req.body[field];
+//       } else {
+//         fieldsToUpdate[field] = req.body[field];
+//       }
+//     }
+//   }
+
+//   if (Object.keys(fieldsToUpdate).length === 0) {
+//     throw createHttpError(400, 'No valid fields to update');
+//   }
+
+//   const updatedUser = await UsersCollection.findByIdAndUpdate(
+//     userId,
+//     { $set: fieldsToUpdate },
+//     { new: true },
+//   );
+
+//   res.status(200).json({
+//     status: 200,
+//     message: 'User profile updated successfully',
+//     data: updatedUser,
+//   });
+// };
 export const updateProfileInfoController = async (req, res) => {
   const userId = req.user._id;
   const user = await UsersCollection.findById(userId);
@@ -118,75 +205,89 @@ export const updateProfileInfoController = async (req, res) => {
     throw createHttpError(404, 'User not found');
   }
 
-  const allowedFields = ['name', 'gender', 'dailyNorma', 'password'];
-  const fieldsToUpdate = {};
+  const { currentPassword, newPassword, confirmPassword, email } = req.body;
 
-  Object.keys(req.body).forEach((field) => {
-    if (allowedFields.includes(field)) {
-      fieldsToUpdate[field] = req.body[field];
+  if (currentPassword) {
+    const isCurrentPasswordValid = await bcrypt.compare(
+      currentPassword,
+      user.password,
+    );
+    if (!isCurrentPasswordValid) {
+      throw createHttpError(401, 'Invalid current password');
     }
-  });
 
-  if (Object.keys(fieldsToUpdate).length === 0) {
-    throw createHttpError(400, 'No valid fields to update');
+    if (newPassword !== confirmPassword) {
+      throw createHttpError(400, 'New password and confirmation do not match');
+    }
+
+    if (await bcrypt.compare(newPassword, user.password)) {
+      throw createHttpError(
+        400,
+        'New password must be different from the current password',
+      );
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
   }
 
-  const updatedUser = await UsersCollection.findByIdAndUpdate(
-    userId,
-    { $set: fieldsToUpdate },
-    { new: true },
-  );
+  if (email && email !== user.email) {
+    user.email = email;
+  }
+
+  await user.save();
+
   res.status(200).json({
     status: 200,
     message: 'User profile updated successfully',
-    data: updatedUser,
+    data: user,
   });
 };
+
 // changePasswordController
-export const changePasswordController = async (req, res) => {
-  const userId = req.user._id;
-  const { currentPassword, newPassword, confirmPassword } = req.body;
+// export const changePasswordController = async (req, res) => {
+//   const userId = req.user._id;
+//   const { currentPassword, newPassword, confirmPassword } = req.body;
 
-  if (!currentPassword || !newPassword || !confirmPassword) {
-    throw createHttpError(400, 'All fields are required');
-  }
+//   if (!currentPassword || !newPassword || !confirmPassword) {
+//     throw createHttpError(400, 'All fields are required');
+//   }
 
-  if (newPassword !== confirmPassword) {
-    throw createHttpError(400, 'New password and confirmation do not match');
-  }
+//   if (newPassword !== confirmPassword) {
+//     throw createHttpError(400, 'New password and confirmation do not match');
+//   }
 
-  const user = await UsersCollection.findById(userId);
+//   const user = await UsersCollection.findById(userId);
 
-  if (!user) {
-    throw createHttpError(404, 'User not found');
-  }
+//   if (!user) {
+//     throw createHttpError(404, 'User not found');
+//   }
 
-  const isCurrentPasswordValid = await bcrypt.compare(
-    currentPassword,
-    user.password,
-  );
+//   const isCurrentPasswordValid = await bcrypt.compare(
+//     currentPassword,
+//     user.password,
+//   );
 
-  if (!isCurrentPasswordValid) {
-    throw createHttpError(401, 'Invalid current password');
-  }
+//   if (!isCurrentPasswordValid) {
+//     throw createHttpError(401, 'Invalid current password');
+//   }
 
-  const isNewPasswordDifferent = newPassword !== currentPassword;
+//   const isNewPasswordDifferent = newPassword !== currentPassword;
 
-  if (!isNewPasswordDifferent) {
-    throw createHttpError(
-      400,
-      'New password must be different from current password',
-    );
-  }
+//   if (!isNewPasswordDifferent) {
+//     throw createHttpError(
+//       400,
+//       'New password must be different from current password',
+//     );
+//   }
 
-  const encryptedNewPassword = await bcrypt.hash(newPassword, 10);
+//   const encryptedNewPassword = await bcrypt.hash(newPassword, 10);
 
-  await UsersCollection.findByIdAndUpdate(userId, {
-    password: encryptedNewPassword,
-  });
+//   await UsersCollection.findByIdAndUpdate(userId, {
+//     password: encryptedNewPassword,
+//   });
 
-  res.status(200).json({ message: 'Password changed successfully' });
-};
+//   res.status(200).json({ message: 'Password changed successfully' });
+// };
 // createProfileController
 export const createProfileController = async (req, res) => {
   const userId = req.user._id;
