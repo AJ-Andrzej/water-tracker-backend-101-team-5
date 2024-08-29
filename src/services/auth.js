@@ -87,6 +87,11 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
     ...newSession,
   });
 };
+export const createProfile = async (payload) => {
+  const contact = await UsersCollection.create(payload);
+  return contact;
+};
+
 // export const requestResetToken = async (email) => {
 //   const user = await UsersCollection.findOne({ email });
 //   if (!user) {

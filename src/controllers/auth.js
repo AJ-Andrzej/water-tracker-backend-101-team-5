@@ -1,8 +1,11 @@
+import bcrypt from 'bcrypt';
+
 import {
   registerUser,
   loginUser,
   logoutUser,
   refreshUsersSession,
+  createProfile,
 } from '../services/auth.js';
 import { REFRESH_TOKEN_TTL } from '../constants/index.js';
 import { UsersCollection } from '../db/models/user.js';
@@ -89,7 +92,8 @@ export const updateAvatarController = async (req, res) => {
 
   res.status(200).json({ message: 'Avatar updated successfully' });
 };
-export const getUserInfoController = async (req, res) => {
+// getProfileInfoController
+export const getProfileInfoController = async (req, res) => {
   const userId = req.user._id;
   if (!userId) {
     throw createHttpError(401, 'User not authenticated');
@@ -105,7 +109,8 @@ export const getUserInfoController = async (req, res) => {
     data: user,
   });
 };
-export const updateUserInfoController = async (req, res) => {
+// updateProfileInfoController
+export const updateProfileInfoController = async (req, res) => {
   const userId = req.user._id;
   const user = await UsersCollection.findById(userId);
 
@@ -113,7 +118,7 @@ export const updateUserInfoController = async (req, res) => {
     throw createHttpError(404, 'User not found');
   }
 
-  const allowedFields = ['name', 'gender', 'dailyNorma'];
+  const allowedFields = ['name', 'gender', 'dailyNorma', 'password'];
   const fieldsToUpdate = {};
 
   Object.keys(req.body).forEach((field) => {
@@ -135,5 +140,61 @@ export const updateUserInfoController = async (req, res) => {
     status: 200,
     message: 'User profile updated successfully',
     data: updatedUser,
+  });
+};
+// changePasswordController
+export const changePasswordController = async (req, res) => {
+  const userId = req.user._id;
+  const { currentPassword, newPassword, confirmPassword } = req.body;
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    throw createHttpError(400, 'All fields are required');
+  }
+
+  if (newPassword !== confirmPassword) {
+    throw createHttpError(400, 'New password and confirmation do not match');
+  }
+
+  const user = await UsersCollection.findById(userId);
+
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  const isCurrentPasswordValid = await bcrypt.compare(
+    currentPassword,
+    user.password,
+  );
+
+  if (!isCurrentPasswordValid) {
+    throw createHttpError(401, 'Invalid current password');
+  }
+
+  const isNewPasswordDifferent = newPassword !== currentPassword;
+
+  if (!isNewPasswordDifferent) {
+    throw createHttpError(
+      400,
+      'New password must be different from current password',
+    );
+  }
+
+  const encryptedNewPassword = await bcrypt.hash(newPassword, 10);
+
+  await UsersCollection.findByIdAndUpdate(userId, {
+    password: encryptedNewPassword,
+  });
+
+  res.status(200).json({ message: 'Password changed successfully' });
+};
+export const createProfileController = async (req, res) => {
+  const userId = req.user._id;
+  const userData = { ...req.body, userId };
+
+  const contact = await createProfile(userData);
+  res.status(201).json({
+    status: 201,
+    message: 'Successfully created a user!',
+    data: contact,
   });
 };

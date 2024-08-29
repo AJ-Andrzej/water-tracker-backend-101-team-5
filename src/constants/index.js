@@ -19,3 +19,11 @@ export const CLOUDINARY = {
 };
 
 export const SWAGGER_PATH = path.resolve('docs', 'swagger.json');
+export const defaultUserInfo = {
+  email: '',
+  password: '', // This should be hashed before saving to the database
+  name: '',
+  gender: 'Other',
+  photo: null,
+  dailyNorma: 0,
+};
