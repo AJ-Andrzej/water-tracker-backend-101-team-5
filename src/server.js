@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
+import authRouter from './routers/auth.js';
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
 import { UPLOAD_DIR } from './constants/index.js';
 import { env } from './utils/env.js';
@@ -17,7 +18,7 @@ export function setupServer() {
   app.use('/api-docs', swaggerDocs());
   app.use(cookieParser());
 
-  // app.use(authRouter);
+  app.use(authRouter);
   // app.use(water);
 
   app.use(notFoundHandler);
