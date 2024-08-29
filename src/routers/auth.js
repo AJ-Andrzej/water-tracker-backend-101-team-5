@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, json } from 'express';
 import {
   registerUserController,
   loginUserController,
@@ -19,14 +19,17 @@ import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
 const authRouter = Router();
+const jsonParser = json();
 
 authRouter.post(
   '/register',
+  jsonParser,
   validateBody(registerUserSchema),
   ctrlWrapper(registerUserController),
 );
 authRouter.post(
   '/login',
+  jsonParser,
   validateBody(loginUserSchema),
   ctrlWrapper(loginUserController),
 );
@@ -36,6 +39,7 @@ authRouter.post('/refresh', ctrlWrapper(refreshUserSessionController));
 authRouter.patch(
   '/password',
   authenticate,
+  jsonParser,
   validateBody(changePasswordSchema),
   ctrlWrapper(changePasswordController),
 );
@@ -48,6 +52,7 @@ authRouter.patch(
 authRouter.get('/profile', authenticate, ctrlWrapper(getProfileInfoController));
 authRouter.patch(
   '/profile',
+  jsonParser,
   authenticate,
   ctrlWrapper(updateProfileInfoController),
 );
