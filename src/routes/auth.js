@@ -46,11 +46,9 @@ router.patch(
   ctrlWrapper(updateAvatarController),
 );
 router.get('/profile', authenticate, ctrlWrapper(getProfileInfoController));
-
 router.patch(
   '/profile',
   authenticate,
   ctrlWrapper(updateProfileInfoController),
 );
-
 export default router;

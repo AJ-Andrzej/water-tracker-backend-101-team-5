@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-
 import {
   registerUser,
   loginUser,
@@ -11,7 +10,7 @@ import { REFRESH_TOKEN_TTL } from '../constants/index.js';
 import { UsersCollection } from '../db/models/user.js';
 import createHttpError from 'http-errors';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
-
+// registerUserController
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
   res.status(201).json({
@@ -20,7 +19,7 @@ export const registerUserController = async (req, res) => {
     data: user,
   });
 };
-
+// loginUserController
 export const loginUserController = async (req, res) => {
   const session = await loginUser(req.body);
   res.cookie('refreshToken', session.refreshToken, {
@@ -39,7 +38,7 @@ export const loginUserController = async (req, res) => {
     },
   });
 };
-
+// logoutUserController
 export const logoutUserController = async (req, res) => {
   if (req.cookies.sessionId) {
     await logoutUser(req.cookies.sessionId);
@@ -59,7 +58,7 @@ const setupSession = (res, session) => {
     expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
   });
 };
-
+// refreshUserSessionController
 export const refreshUserSessionController = async (req, res) => {
   const session = await refreshUsersSession({
     sessionId: req.cookies.sessionId,
@@ -74,6 +73,7 @@ export const refreshUserSessionController = async (req, res) => {
     },
   });
 };
+// updateAvatarController
 export const updateAvatarController = async (req, res) => {
   const userId = req.user._id;
   const user = await UsersCollection.findById(userId);
@@ -187,6 +187,7 @@ export const changePasswordController = async (req, res) => {
 
   res.status(200).json({ message: 'Password changed successfully' });
 };
+// createProfileController
 export const createProfileController = async (req, res) => {
   const userId = req.user._id;
   const userData = { ...req.body, userId };
