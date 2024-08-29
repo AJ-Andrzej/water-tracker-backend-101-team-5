@@ -1,4 +1,6 @@
 import bcrypt from 'bcrypt';
+import createHttpError from 'http-errors';
+
 import {
   registerUser,
   loginUser,
@@ -8,7 +10,6 @@ import {
 } from '../services/auth.js';
 import { REFRESH_TOKEN_TTL } from '../constants/index.js';
 import { UsersCollection } from '../db/models/user.js';
-import createHttpError from 'http-errors';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 // registerUserController
 export const registerUserController = async (req, res) => {
@@ -242,52 +243,6 @@ export const updateProfileInfoController = async (req, res) => {
     data: user,
   });
 };
-
-// changePasswordController
-// export const changePasswordController = async (req, res) => {
-//   const userId = req.user._id;
-//   const { currentPassword, newPassword, confirmPassword } = req.body;
-
-//   if (!currentPassword || !newPassword || !confirmPassword) {
-//     throw createHttpError(400, 'All fields are required');
-//   }
-
-//   if (newPassword !== confirmPassword) {
-//     throw createHttpError(400, 'New password and confirmation do not match');
-//   }
-
-//   const user = await UsersCollection.findById(userId);
-
-//   if (!user) {
-//     throw createHttpError(404, 'User not found');
-//   }
-
-//   const isCurrentPasswordValid = await bcrypt.compare(
-//     currentPassword,
-//     user.password,
-//   );
-
-//   if (!isCurrentPasswordValid) {
-//     throw createHttpError(401, 'Invalid current password');
-//   }
-
-//   const isNewPasswordDifferent = newPassword !== currentPassword;
-
-//   if (!isNewPasswordDifferent) {
-//     throw createHttpError(
-//       400,
-//       'New password must be different from current password',
-//     );
-//   }
-
-//   const encryptedNewPassword = await bcrypt.hash(newPassword, 10);
-
-//   await UsersCollection.findByIdAndUpdate(userId, {
-//     password: encryptedNewPassword,
-//   });
-
-//   res.status(200).json({ message: 'Password changed successfully' });
-// };
 // createProfileController
 export const createProfileController = async (req, res) => {
   const userId = req.user._id;

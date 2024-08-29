@@ -7,7 +7,6 @@ import {
   updateAvatarController,
   getProfileInfoController,
   updateProfileInfoController,
-  // changePasswordController,
 } from '../controllers/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
@@ -36,12 +35,6 @@ authRouter.post(
 authRouter.post('/auth/logout', ctrlWrapper(logoutUserController));
 authRouter.post('/auth/refresh', ctrlWrapper(refreshUserSessionController));
 
-// authRouter.patch(
-//   '/auth/password',
-//   jsonParser,
-//   validateBody(changePasswordSchema),
-//   ctrlWrapper(changePasswordController),
-// );
 authRouter.patch(
   '/auth/avatar',
   authenticate,
