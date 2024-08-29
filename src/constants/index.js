@@ -6,7 +6,7 @@ export const SORT_ORDER = {
   DESC: 'desc',
 };
 
-export const ACESS_TOKEN_TTL = 15 * 60 * 1000;
+export const ACCESS_TOKEN_TTL = 15 * 60 * 1000;
 export const REFRESH_TOKEN_TTL = 24 * 60 * 60 * 1000;
 
 export const TEMP_UPLOAD_DIR = path.resolve('src', 'temp');

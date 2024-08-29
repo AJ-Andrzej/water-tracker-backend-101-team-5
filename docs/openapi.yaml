@@ -12,7 +12,7 @@ tags:
   - name: Auth
     description: Auth operations.
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:8080
   - url: https://example.com/api/v1
 paths:
 components:
