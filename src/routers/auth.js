@@ -22,36 +22,40 @@ const authRouter = Router();
 const jsonParser = json();
 
 authRouter.post(
-  '/register',
+  '/auth/register',
   jsonParser,
   validateBody(registerUserSchema),
   ctrlWrapper(registerUserController),
 );
 authRouter.post(
-  '/login',
+  '/auth/login',
   jsonParser,
   validateBody(loginUserSchema),
   ctrlWrapper(loginUserController),
 );
-authRouter.post('/logout', ctrlWrapper(logoutUserController));
-authRouter.post('/refresh', ctrlWrapper(refreshUserSessionController));
+authRouter.post('/auth/logout', ctrlWrapper(logoutUserController));
+authRouter.post('/auth/refresh', ctrlWrapper(refreshUserSessionController));
 
 authRouter.patch(
-  '/password',
+  '/auth/password',
   authenticate,
   jsonParser,
   validateBody(changePasswordSchema),
   ctrlWrapper(changePasswordController),
 );
 authRouter.patch(
-  '/avatar',
+  '/auth/avatar',
   authenticate,
   upload.single('avatar'),
   ctrlWrapper(updateAvatarController),
 );
-authRouter.get('/profile', authenticate, ctrlWrapper(getProfileInfoController));
+authRouter.get(
+  '/auth/profile',
+  authenticate,
+  ctrlWrapper(getProfileInfoController),
+);
 authRouter.patch(
-  '/profile',
+  '/auth/profile',
   jsonParser,
   authenticate,
   ctrlWrapper(updateProfileInfoController),
