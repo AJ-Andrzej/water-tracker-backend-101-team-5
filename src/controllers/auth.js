@@ -191,10 +191,10 @@ export const createProfileController = async (req, res) => {
   const userId = req.user._id;
   const userData = { ...req.body, userId };
 
-  const contact = await createProfile(userData);
+  const user = await createProfile(userData);
   res.status(201).json({
     status: 201,
     message: 'Successfully created a user!',
-    data: contact,
+    data: user,
   });
 };

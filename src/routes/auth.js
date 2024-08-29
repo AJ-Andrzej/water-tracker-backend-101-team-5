@@ -1,18 +1,23 @@
 import { Router } from 'express';
-import { ctrlWrapper } from '../utils/ctrlWrapper.js';
-import { registerUserSchema } from '../validation/auth.js';
 import {
-  changePasswordController,
   registerUserController,
+  loginUserController,
+  logoutUserController,
+  refreshUserSessionController,
+  updateAvatarController,
+  getProfileInfoController,
+  updateProfileInfoController,
+  changePasswordController,
 } from '../controllers/auth.js';
-import { loginUserSchema } from '../validation/auth.js';
-import { loginUserController } from '../controllers/auth.js';
-import { logoutUserController } from '../controllers/auth.js';
-import { refreshUserSessionController } from '../controllers/auth.js';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import {
+  registerUserSchema,
+  loginUserSchema,
+  changePasswordSchema,
+} from '../validation/auth.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
-import { changePasswordSchema } from '../validation/auth.js';
-
+import { upload } from '../middlewares/multer.js';
 const router = Router();
 
 router.post(
@@ -34,4 +39,18 @@ router.patch(
   validateBody(changePasswordSchema),
   ctrlWrapper(changePasswordController),
 );
+router.patch(
+  '/avatar',
+  authenticate,
+  upload.single('avatar'),
+  ctrlWrapper(updateAvatarController),
+);
+router.get('/profile', authenticate, ctrlWrapper(getProfileInfoController));
+
+router.patch(
+  '/profile',
+  authenticate,
+  ctrlWrapper(updateProfileInfoController),
+);
+
 export default router;

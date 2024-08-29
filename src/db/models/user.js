@@ -12,7 +12,7 @@ const usersSchema = new Schema(
       type: String,
     },
     email: { type: String, required: true, unique: true },
-    password: { type: String },
+    password: { type: String, unique: true },
     dailyNorma: {
       type: Number,
       default: 1500,
