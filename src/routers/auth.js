@@ -18,37 +18,37 @@ import {
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
-const router = Router();
+const authRouter = Router();
 
-router.post(
+authRouter.post(
   '/register',
   validateBody(registerUserSchema),
   ctrlWrapper(registerUserController),
 );
-router.post(
+authRouter.post(
   '/login',
   validateBody(loginUserSchema),
   ctrlWrapper(loginUserController),
 );
-router.post('/logout', ctrlWrapper(logoutUserController));
-router.post('/refresh', ctrlWrapper(refreshUserSessionController));
+authRouter.post('/logout', ctrlWrapper(logoutUserController));
+authRouter.post('/refresh', ctrlWrapper(refreshUserSessionController));
 
-router.patch(
+authRouter.patch(
   '/password',
   authenticate,
   validateBody(changePasswordSchema),
   ctrlWrapper(changePasswordController),
 );
-router.patch(
+authRouter.patch(
   '/avatar',
   authenticate,
   upload.single('avatar'),
   ctrlWrapper(updateAvatarController),
 );
-router.get('/profile', authenticate, ctrlWrapper(getProfileInfoController));
-router.patch(
+authRouter.get('/profile', authenticate, ctrlWrapper(getProfileInfoController));
+authRouter.patch(
   '/profile',
   authenticate,
   ctrlWrapper(updateProfileInfoController),
 );
-export default router;
+export default authRouter;
