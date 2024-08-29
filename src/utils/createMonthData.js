@@ -65,9 +65,8 @@ function aggregateData(data, days, goal) {
 }
 
 export function createMonthData(data, year, month, goal) {
-  const filteredData = filterByMonth(data, year, month);
-  const days = generateDaysArray(year, month);
+  const filteredData = filterByMonth(data, Number(year), Number(month));
+  const days = generateDaysArray(Number(year), Number(month));
   const result = aggregateData(filteredData, days, goal);
-
   return result;
 }
