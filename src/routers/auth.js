@@ -7,13 +7,12 @@ import {
   updateAvatarController,
   getProfileInfoController,
   updateProfileInfoController,
-  changePasswordController,
 } from '../controllers/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   registerUserSchema,
   loginUserSchema,
-  changePasswordSchema,
+  // changePasswordSchema,
 } from '../validation/auth.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
@@ -36,13 +35,6 @@ authRouter.post(
 authRouter.post('/auth/logout', ctrlWrapper(logoutUserController));
 authRouter.post('/auth/refresh', ctrlWrapper(refreshUserSessionController));
 
-authRouter.patch(
-  '/auth/password',
-  authenticate,
-  jsonParser,
-  validateBody(changePasswordSchema),
-  ctrlWrapper(changePasswordController),
-);
 authRouter.patch(
   '/auth/avatar',
   authenticate,
