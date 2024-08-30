@@ -1,0 +1,27 @@
+
+patch:
+  tags:
+    - auth
+  summary: Update user
+  operationId: updateUser
+  description: Update the user information of the currently authenticated user.
+  security:
+    - bearerAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas.yaml#/schemas/UpdateUserRequest'
+  responses:
+    '200':
+      description: User updated successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yaml#/schemas/UserResponse'
+    '400':
+      $ref: '../../components/responses.yaml#/responses/IllegalInput'
+    '401':
+      $ref: '../../components/responses.yaml#/responses/Unauthorized'
+    '404':
+      $ref: '../../components/responses.yaml#/responses/

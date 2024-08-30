@@ -18,6 +18,15 @@ schemas:
         type: string
         format: password
         example: password123
+        SuccessResponse:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully registered a user!
 
   LoginUserRequest:
     type: object
@@ -74,7 +83,15 @@ schemas:
       message:
         type: string
         example: User profile updated successfully
-
+        ErrorResponse:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 401
+            message:
+              type: string
+              example: Unauthorized
   ErrorResponse:
     type: object
     properties:
@@ -108,6 +125,15 @@ UpdateAvatarRequest:
           avatarUrl:
             type: string
             example: http://example.com/uploads/avatar.jpg
+ErrorResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+        example: 400
+      message:
+        type: string
+        example: Bad Request
 UpdateUserRequest:
     type: object
     properties:
@@ -138,21 +164,26 @@ UpdateUserRequest:
         enum: [Man, Woman]
         example: Man
 
-  # User:
-  #   type: object
-  #   properties:
-  #     userName:
-  #       type: string
-  #       example: 'User'
-  #     dailyNorma:
-  #       type: number
-  #       example: 1500
-  #     email:
-  #       type: string
-  #       example: 'user@example.com'
-  #     gender:
-  #       type: string
-  #       enum: ['Man', 'Woman']
-  #     photo:
-  #       type: string
-  #       example: 'http://example.com/photo.jpg'
+        UserResponse:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 60d0fe4f5311236168a109ca
+            userName:
+              type: string
+              example: User
+            email:
+              type: string
+              format: email
+              example: user@example.com
+            dailyNorma:
+              type: number
+              example: 2000
+            gender:
+              type: string
+              enum: [Man, Woman]
+              example: Man
+            photo:
+              type: string
+              example: http://example.com/photo.jpg

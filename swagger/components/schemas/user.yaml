@@ -1,3 +1,4 @@
+
 type: object;
 required: -email - password;
 properties: userName: type: string;
