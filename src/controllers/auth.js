@@ -206,7 +206,15 @@ export const updateProfileInfoController = async (req, res) => {
     throw createHttpError(404, 'User not found');
   }
 
-  const { currentPassword, newPassword, confirmPassword, email } = req.body;
+  const {
+    currentPassword,
+    newPassword,
+    confirmPassword,
+    email,
+    userName,
+    dailyNorma,
+    gender,
+  } = req.body;
 
   if (currentPassword) {
     const isCurrentPasswordValid = await bcrypt.compare(
@@ -234,7 +242,17 @@ export const updateProfileInfoController = async (req, res) => {
   if (email && email !== user.email) {
     user.email = email;
   }
+  if (userName) {
+    user.userName = userName;
+  }
 
+  if (dailyNorma) {
+    user.dailyNorma = dailyNorma;
+  }
+
+  if (gender) {
+    user.gender = gender;
+  }
   await user.save();
 
   res.status(200).json({
