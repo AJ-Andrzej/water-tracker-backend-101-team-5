@@ -32,11 +32,7 @@ export const loginUserController = async (req, res) => {
     expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
   });
   res.status(200).json({
-    status: 200,
-    message: 'Successfully logged in an user!',
-    data: {
-      accessToken: session.accessToken,
-    },
+    accessToken: session.accessToken,
   });
 };
 // logoutUserController
