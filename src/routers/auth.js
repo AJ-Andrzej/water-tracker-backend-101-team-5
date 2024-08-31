@@ -12,6 +12,7 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   registerUserSchema,
   loginUserSchema,
+  updateProfileInfoSchema,
   // changePasswordSchema,
 } from '../validation/auth.js';
 import { validateBody } from '../middlewares/validateBody.js';
@@ -42,14 +43,15 @@ authRouter.patch(
   ctrlWrapper(updateAvatarController),
 );
 authRouter.get(
-  '/auth/profile',
+  '/auth/user',
   authenticate,
   ctrlWrapper(getProfileInfoController),
 );
 authRouter.patch(
-  '/auth/profile',
+  '/auth/user',
   jsonParser,
   authenticate,
+  validateBody(updateProfileInfoSchema),
   ctrlWrapper(updateProfileInfoController),
 );
 export default authRouter;
