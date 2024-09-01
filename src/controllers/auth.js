@@ -19,6 +19,8 @@ export const registerUserController = async (req, res) => {
 // loginUserController
 export const loginUserController = async (req, res) => {
   const session = await loginUser(req.body);
+  const user = await UsersCollection.findOne({ email: req.body.email });
+
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
@@ -28,9 +30,8 @@ export const loginUserController = async (req, res) => {
     expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
   });
   res.status(200).json({
-    status: 200,
-    message: 'Successfully logged in an user!',
     accessToken: session.accessToken,
+    user,
   });
 };
 // logoutUserController
@@ -59,10 +60,9 @@ export const refreshUserSessionController = async (req, res) => {
     sessionId: req.cookies.sessionId,
     refreshToken: req.cookies.refreshToken,
   });
+
   setupSession(res, session);
   res.status(200).json({
-    status: 200,
-    message: 'Successfully refreshed a session!',
     accessToken: session.accessToken,
   });
 };
