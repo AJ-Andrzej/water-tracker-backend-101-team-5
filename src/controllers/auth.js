@@ -14,25 +14,44 @@ import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 // registerUserController
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
-  res.status(201).json(user);
+  if (user !== null) {
+    const session = await loginUser(req.body);
+    res.cookie('refreshToken', session.refreshToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
+    });
+    res.cookie('sessionId', session._id, {
+      httpOnly: true,
+      expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
+    });
+
+    res.status(201).json({
+      accessToken: session.accessToken,
+      user,
+    });
+  }
 };
+
 // loginUserController
 export const loginUserController = async (req, res) => {
-  const session = await loginUser(req.body);
   const user = await UsersCollection.findOne({ email: req.body.email });
+  if (user !== null) {
+    const session = await loginUser(req.body);
 
-  res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
-    expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
-  });
-  res.cookie('sessionId', session._id, {
-    httpOnly: true,
-    expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
-  });
-  res.status(200).json({
-    accessToken: session.accessToken,
-    user,
-  });
+    res.cookie('refreshToken', session.refreshToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
+    });
+    res.cookie('sessionId', session._id, {
+      httpOnly: true,
+      expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
+    });
+
+    res.status(200).json({
+      accessToken: session.accessToken,
+      user,
+    });
+  }
 };
 // logoutUserController
 export const logoutUserController = async (req, res) => {
