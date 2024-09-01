@@ -14,11 +14,7 @@ import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 // registerUserController
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
-  res.status(201).json({
-    status: 201,
-    message: 'Successfully registered a user!',
-    data: user,
-  });
+  res.status(201).json(user);
 };
 // loginUserController
 export const loginUserController = async (req, res) => {
@@ -34,9 +30,7 @@ export const loginUserController = async (req, res) => {
   res.status(200).json({
     status: 200,
     message: 'Successfully logged in an user!',
-    data: {
-      accessToken: session.accessToken,
-    },
+    accessToken: session.accessToken,
   });
 };
 // logoutUserController
@@ -102,11 +96,7 @@ export const getProfileInfoController = async (req, res) => {
   if (!user) {
     throw createHttpError(404, 'User not found');
   }
-  res.status(200).json({
-    status: 200,
-    message: 'User info retrieved successfully',
-    data: user,
-  });
+  res.status(200).json(user);
 };
 // updateProfileInfoController
 // export const updateProfileInfoController = async (req, res) => {
@@ -253,11 +243,7 @@ export const updateProfileInfoController = async (req, res) => {
   }
   await user.save();
 
-  res.status(200).json({
-    status: 200,
-    message: 'User profile updated successfully',
-    data: user,
-  });
+  res.status(200).json(user);
 };
 // createProfileController
 export const createProfileController = async (req, res) => {
@@ -265,9 +251,5 @@ export const createProfileController = async (req, res) => {
   const userData = { ...req.body, userId };
 
   const user = await createProfile(userData);
-  res.status(201).json({
-    status: 201,
-    message: 'Successfully created a user!',
-    data: user,
-  });
+  res.status(201).json(user);
 };
