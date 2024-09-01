@@ -11,10 +11,15 @@
   },
   "servers": [
     {
-      "url": "https://water-tracker-backend-101-team-5.onrender.com/"
+      "url": "https://water-tracker-backend-101-team-5.onrender.com"
     },
     {
       "url": "http://localhost:8080"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
     }
   ],
   "tags": [
@@ -32,7 +37,6 @@
         "summary": "Register a new user",
         "operationId": "registerUser",
         "description": "Register a new user with the provided credentials.",
-        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -71,7 +75,6 @@
         "summary": "Login a user",
         "operationId": "loginUser",
         "description": "Login a user with the provided credentials.",
-        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -120,7 +123,6 @@
         "summary": "Logout a user",
         "operationId": "logoutUser",
         "description": "Logout the currently authenticated user.",
-        "security": [],
         "responses": {
           "204": {
             "description": "Successfully logged out"
@@ -152,7 +154,6 @@
         "summary": "Refresh user session",
         "operationId": "refreshUserSession",
         "description": "Refresh the session of the currently authenticated user.",
-        "security": [],
         "responses": {
           "200": {
             "description": "Successfully refreshed the session",
@@ -305,6 +306,13 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "RegisterUserRequest": {
         "type": "object",

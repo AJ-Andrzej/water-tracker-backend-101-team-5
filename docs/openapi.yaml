@@ -8,9 +8,10 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 
 servers:
-  - url: https://water-tracker-backend-101-team-5.onrender.com/
+  - url: https://water-tracker-backend-101-team-5.onrender.com
   - url: http://localhost:8080
-
+security:
+  - bearerAuth: []
 tags:
   - name: Auth
     description: Auth operations.
@@ -23,7 +24,6 @@ paths:
       summary: Register a new user
       operationId: registerUser
       description: Register a new user with the provided credentials.
-      security: []
       requestBody:
         required: true
         content:
@@ -49,7 +49,6 @@ paths:
       summary: Login a user
       operationId: loginUser
       description: Login a user with the provided credentials.
-      security: []
       requestBody:
         required: true
         content:
@@ -81,7 +80,6 @@ paths:
       summary: Logout a user
       operationId: logoutUser
       description: Logout the currently authenticated user.
-      security: []
       responses:
         '204':
           description: Successfully logged out
@@ -103,7 +101,6 @@ paths:
       summary: Refresh user session
       operationId: refreshUserSession
       description: Refresh the session of the currently authenticated user.
-      security: []
       responses:
         '200':
           description: Successfully refreshed the session
@@ -198,6 +195,12 @@ paths:
           $ref: '#/components/responses/GeneralError'
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     RegisterUserRequest:
       type: object
