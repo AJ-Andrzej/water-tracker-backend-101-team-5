@@ -1,0 +1,40 @@
+tags:
+  - Water
+summary: Set daily norma of user
+operationId: waterId
+description: 'Set daily norma of water'
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - dailyNorm
+        properties:
+          dailyNorma:
+            description: 'Daily norma of water'
+            type: number
+            example: 1500
+
+responses:
+  '201':
+    description: Set daily norm of water
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully add a water daily norma!
+  '404':
+    $ref: ..\..\components\responses\404.yaml
