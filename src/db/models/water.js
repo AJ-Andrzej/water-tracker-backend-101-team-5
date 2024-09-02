@@ -13,7 +13,7 @@ const waterIntakeSchema = new Schema(
       required: true,
     },
     date: {
-      type: Date,
+      type: String,
       default: Date.now(),
     },
   },

@@ -31,8 +31,8 @@ function formatDate(dateString) {
 
 function fullfilment(goal, amount) {
   const fullfilment = Math.round((amount / goal) * 100);
-  if (fullfilment > 100) return `100%`;
-  return `${fullfilment}%`;
+  if (fullfilment > 100) return 100;
+  return fullfilment;
 }
 
 function aggregateData(data, days, goal) {

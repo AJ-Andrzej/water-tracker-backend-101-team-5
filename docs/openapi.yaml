@@ -33,10 +33,13 @@ paths:
   /user/daily-water:
     get:
       $ref: ../swagger/path/water/get.yaml
+  /user/monthly-water:
+    get:
+      $ref: ../swagger/path/water/monthly.yaml
   /auth/register:
     post:
       tags:
-        - auth
+        - Auth
       summary: Register a new user
       operationId: registerUser
       description: Register a new user with the provided credentials.
@@ -61,7 +64,7 @@ paths:
   /auth/login:
     post:
       tags:
-        - auth
+        - Auth
       summary: Login a user
       operationId: loginUser
       description: Login a user with the provided credentials.
@@ -92,7 +95,7 @@ paths:
   /auth/logout:
     post:
       tags:
-        - auth
+        - Auth
       summary: Logout a user
       operationId: logoutUser
       description: Logout the currently authenticated user.
@@ -113,7 +116,7 @@ paths:
   /auth/refresh:
     post:
       tags:
-        - auth
+        - Auth
       summary: Refresh user session
       operationId: refreshUserSession
       description: Refresh the session of the currently authenticated user.
@@ -132,7 +135,7 @@ paths:
   /auth/avatar:
     patch:
       tags:
-        - auth
+        - Auth
       summary: Update user avatar
       operationId: updateAvatar
       description: Update the avatar of the currently authenticated user.
@@ -162,7 +165,7 @@ paths:
   /auth/user:
     get:
       tags:
-        - auth
+        - Auth
       summary: Get user
       operationId: getUser
       description: Retrieve the user information of the currently authenticated user.
@@ -183,7 +186,7 @@ paths:
           $ref: '#/components/responses/GeneralError'
     patch:
       tags:
-        - auth
+        - Auth
       summary: Update user profile
       operationId: updateUser
       description: Update the profile information of the currently authenticated user.

@@ -314,7 +314,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully found contacts!",
+            "description": "Daily water intake retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -403,10 +403,138 @@
         }
       }
     },
+    "/user/monthly-water": {
+      "get": {
+        "tags": [
+          "Water"
+        ],
+        "summary": "Get list of monthly water",
+        "operationId": "getMonthlyWater",
+        "description": "Get list of monthly water with this endpoint",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "year",
+                  "month"
+                ],
+                "properties": {
+                  "year": {
+                    "description": "year according to which you need to search",
+                    "type": "string",
+                    "example": "2024"
+                  },
+                  "month": {
+                    "description": "Month according to which you need to search",
+                    "type": "string",
+                    "example": "08"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Monthly water intake retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Monthly water intake retrieved successfully"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/monthlyWater"
+                      },
+                      "properties": {
+                        "percentage": {
+                          "type": "number",
+                          "properties": {
+                            "percentage": {
+                              "description": "Percentage of daily water",
+                              "type": "number",
+                              "example": "63"
+                            }
+                          }
+                        },
+                        "waterIntakes": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "id",
+                              "userId",
+                              "amount",
+                              "time",
+                              "date"
+                            ],
+                            "properties": {
+                              "_id": {
+                                "description": "Id of users object",
+                                "type": "string",
+                                "example": "66c4b8bd4719066469ce2d02"
+                              },
+                              "userId": {
+                                "description": "Id of user",
+                                "type": "string",
+                                "example": "66c4b8bd4719066469ce2d02"
+                              },
+                              "amount": {
+                                "description": "Amount of water",
+                                "type": "number",
+                                "example": 450
+                              },
+                              "time": {
+                                "description": "Time of add water",
+                                "type": "string",
+                                "example": "11:35"
+                              },
+                              "date": {
+                                "description": "Date of water",
+                                "type": "string",
+                                "example": "2024-09-02"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
     "/auth/register": {
       "post": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Register a new user",
         "operationId": "registerUser",
@@ -444,7 +572,7 @@
     "/auth/login": {
       "post": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Login a user",
         "operationId": "loginUser",
@@ -492,7 +620,7 @@
     "/auth/logout": {
       "post": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Logout a user",
         "operationId": "logoutUser",
@@ -523,7 +651,7 @@
     "/auth/refresh": {
       "post": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Refresh user session",
         "operationId": "refreshUserSession",
@@ -551,7 +679,7 @@
     "/auth/avatar": {
       "patch": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Update user avatar",
         "operationId": "updateAvatar",
@@ -599,7 +727,7 @@
     "/auth/user": {
       "get": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Get user",
         "operationId": "getUser",
@@ -633,7 +761,7 @@
       },
       "patch": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Update user profile",
         "operationId": "updateUser",
@@ -868,6 +996,43 @@
               "Woman"
             ],
             "example": "Man"
+          }
+        }
+      },
+      "monthlyWater": {
+        "type": "object",
+        "required": [
+          "date",
+          "totalAmount",
+          "servings",
+          "dailyNorma",
+          "fullfilment"
+        ],
+        "properties": {
+          "date": {
+            "description": "Date",
+            "type": "string",
+            "example": "2, September"
+          },
+          "totalAmount": {
+            "description": "Total amount of water intake per day (ml)",
+            "type": "number",
+            "example": 1200
+          },
+          "servings": {
+            "description": "Total amount of servings water per day",
+            "type": "number",
+            "example": 5
+          },
+          "dailyNorma": {
+            "description": "Daily water intake norma selected by the user",
+            "type": "number",
+            "example": 1500
+          },
+          "fullfilment": {
+            "description": "Percentage of daily water",
+            "type": "number",
+            "example": 50
           }
         }
       }

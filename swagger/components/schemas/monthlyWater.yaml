@@ -1,0 +1,28 @@
+type: object
+required:
+  - date
+  - totalAmount
+  - servings
+  - dailyNorma
+  - fullfilment
+properties:
+  date:
+    description: 'Date'
+    type: string
+    example: 2, September
+  totalAmount:
+    description: 'Total amount of water intake per day (ml)'
+    type: number
+    example: 1200
+  servings:
+    description: 'Total amount of servings water per day'
+    type: number
+    example: 5
+  dailyNorma:
+    description: 'Daily water intake norma selected by the user'
+    type: number
+    example: 1500
+  fullfilment:
+    description: 'Percentage of daily water'
+    type: number
+    example: 50

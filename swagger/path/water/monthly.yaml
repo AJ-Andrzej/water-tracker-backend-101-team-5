@@ -1,13 +1,30 @@
 tags:
   - Water
-summary: Get list of daily water
-operationId: getDailyWater
-description: 'Get list of daily water with this endpoint'
+summary: Get list of monthly water
+operationId: getMonthlyWater
+description: 'Get list of monthly water with this endpoint'
 security:
   - bearerAuth: []
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - year
+          - month
+        properties:
+          year:
+            description: 'year according to which you need to search'
+            type: string
+            example: '2024'
+          month:
+            description: 'Month according to which you need to search'
+            type: string
+            example: '08'
 responses:
   '200':
-    description: Daily water intake retrieved successfully
+    description: Monthly water intake retrieved successfully
     content:
       application/json:
         schema:
@@ -22,12 +39,11 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully found daily water!
+              example: Monthly water intake retrieved successfully
             data:
-              type: object
-              required:
-                - percentage
-                - waterIntakes
+              type: array
+              items:
+                $ref: ..\..\components\schemas\monthlyWater.yaml
               properties:
                 percentage:
                   type: number

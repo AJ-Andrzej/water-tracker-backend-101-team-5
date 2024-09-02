@@ -11,6 +11,8 @@ import {
 import { REFRESH_TOKEN_TTL } from '../constants/index.js';
 import { UsersCollection } from '../db/models/user.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { env } from '../utils/env.js';
 // registerUserController
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
@@ -89,6 +91,7 @@ export const refreshUserSessionController = async (req, res) => {
 export const updateAvatarController = async (req, res) => {
   const userId = req.user._id;
   const user = await UsersCollection.findById(userId);
+  const avatar = req.file;
 
   if (!user) {
     throw createHttpError(404, 'User not found');
@@ -96,8 +99,12 @@ export const updateAvatarController = async (req, res) => {
 
   let avatarUrl;
 
-  if (req.file) {
-    avatarUrl = await saveFileToUploadDir(req.file);
+  if (avatar) {
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+      avatarUrl = await saveFileToCloudinary(avatar);
+    } else {
+      avatarUrl = await saveFileToUploadDir(avatar);
+    }
   }
 
   await UsersCollection.findByIdAndUpdate(userId, { photo: avatarUrl });
