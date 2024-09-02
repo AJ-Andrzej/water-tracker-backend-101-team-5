@@ -1,0 +1,30 @@
+# /swagger/paths/auth/avatar.yaml
+
+patch:
+  tags:
+    - auth
+  summary: Update user avatar
+  operationId: updateAvatar
+  description: Update the avatar of the currently authenticated user.
+  security:
+    - bearerAuth: []
+  requestBody:
+    content:
+      multipart/form-data:
+        schema:
+          $ref: '../../components/schemas.yaml#/schemas/UpdateAvatarRequest'
+  responses:
+    '200':
+      description: Avatar updated successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yaml#/schemas/AvatarResponse'
+    '401':
+      $ref: '../../components/responses.yaml#/responses/Unauthorized'
+    '400':
+      $ref: '../../components/responses.yaml#/responses/IllegalInput'
+    '404':
+      $ref: '../../components/responses.yaml#/responses/NotFound'
+    '500':
+      $ref: '../../components/responses.yaml#/responses/GeneralError'

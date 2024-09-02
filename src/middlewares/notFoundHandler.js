@@ -1,3 +1,6 @@
 export function notFoundHandler(_, res) {
-  res.status(404).send('Rout not Found');
+  res.status(404).send({
+    status: 404,
+    message: 'Rout not Found',
+  });
 }

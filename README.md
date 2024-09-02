@@ -1,36 +1,21 @@
+<!-- перенеси у файл openapi.yaml -->
 openapi: 3.1.0
 info:
   version: 1.0.0
   title: Water Tracker app
-  description: This is a documentation of Water Tracker app
+description: Water Tracker
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-
-servers:
-  - url: https://water-tracker-backend-101-team-5.onrender.com
-  - url: http://localhost:8080
-security:
-  - bearerAuth: []
+  description: This is a documentation of Water Tracker app
 tags:
+  - name: Water
   - name: Auth
     description: Auth operations.
+servers:
+  - url: https://water-tracker-backend-101-team-5.onrender.com/
+  - url: http://localhost:8080
 paths:
-  /user/delete-water/{id}:
-    delete:
-      $ref: ../swagger/path/water/{id}/delete.yaml
-  /user/update-water/{id}:
-    patch:
-      $ref: ../swagger/path/water/{id}/patch.yaml
-  /user/daily-norma:
-    post:
-      $ref: ../swagger/path/water/dailyPost.yaml
-  /user/add-water:
-    post:
-      $ref: ../swagger/path/water/addPost.yaml
-  /user/daily-water:
-    get:
-      $ref: ../swagger/path/water/get.yaml
   /auth/register:
     post:
       tags:
@@ -45,18 +30,17 @@ paths:
             schema:
               $ref: '#/components/schemas/RegisterUserRequest'
       responses:
-        '201':
+       '201':
           description: Successfully registered a user
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
         '400':
-          $ref: '#/components/responses/IllegalInput'
+          $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/GeneralError'
-
-  /auth/login:
+ /auth/login:
     post:
       tags:
         - auth
@@ -77,13 +61,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
         '400':
-          $ref: '#/components/responses/IllegalInput'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/Unauthorized'
         '500':
           $ref: '#/components/responses/GeneralError'
 
@@ -98,13 +78,9 @@ paths:
         '204':
           description: Successfully logged out
         '400':
-          $ref: '#/components/responses/IllegalInput'
+          $ref: '#/components/responses/BadRequest'
         '404':
-          description: Session not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/GeneralError'
 
@@ -151,7 +127,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
         '400':
-          $ref: '#/components/responses/IllegalInput'
+          $ref: '#/components/responses/BadRequest'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -161,14 +137,14 @@ paths:
     get:
       tags:
         - auth
-      summary: Get user
-      operationId: getUser
-      description: Retrieve the user information of the currently authenticated user.
+      summary: Get user profile
+      operationId: getUserProfile
+      description: Retrieve the profile information of the currently authenticated user.
       security:
         - bearerAuth: []
       responses:
         '200':
-          description: Successfully retrieved user
+          description: Successfully retrieved user profile
           content:
             application/json:
               schema:
@@ -179,11 +155,12 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/GeneralError'
+
     patch:
       tags:
         - auth
       summary: Update user profile
-      operationId: updateUser
+      operationId: updateUserProfile
       description: Update the profile information of the currently authenticated user.
       security:
         - bearerAuth: []
@@ -200,28 +177,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserResponse'
         '400':
-          $ref: '#/components/responses/IllegalInput'
+          $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/GeneralError'
-
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-
-  schemas:
+schemas:
     RegisterUserRequest:
       type: object
       required:
         - email
         - password
       properties:
+        userName:
+          type: string
+          example: User
         email:
           type: string
           format: email
@@ -354,26 +326,29 @@ components:
           example: Man
 
   responses:
-    NotFound:
-      description: Entity not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    IllegalInput:
-      description: Illegal input for operation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    GeneralError:
-      description: Internal Server Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    GeneralError:
+      description: Internal Server Error
       content:
         application/json:
           schema:

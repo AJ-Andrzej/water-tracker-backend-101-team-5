@@ -1,0 +1,21 @@
+get:
+  tags:
+    - auth
+  summary: Get user
+  operationId: getUser
+  description: Retrieve the user information of the currently authenticated user.
+  security:
+    - bearerAuth: []
+  responses:
+    '200':
+      description: Successfully retrieved user
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yaml#/schemas/UserResponse'
+    '401':
+      $ref: '../../components/responses.yaml#/responses/Unauthorized'
+    '404':
+      $ref: '../../components/responses.yaml#/responses/NotFound'
+    '500':
+      $ref: '../../components/responses.yaml#/responses/GeneralError'
