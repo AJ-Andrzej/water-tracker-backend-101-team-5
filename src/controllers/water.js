@@ -4,7 +4,9 @@ import {
   updateWater,
   deleteWater,
   getWaterIntake,
+  getAllWaterIntakes,
 } from '../services/water.js';
+import { createMonthData } from '../utils/createMonthData.js';
 import createHttpError from 'http-errors';
 import { UsersCollection } from '../db/models/user.js';
 
@@ -102,7 +104,11 @@ export async function getDailyWaterIntake(req, res, next) {
   const user = await UsersCollection.findById(userId);
   const dailyNorma = user.dailyNorma;
 
-  const percentage = ((totalAmount / dailyNorma) * 100).toFixed(0);
+  let percentage = ((totalAmount / dailyNorma) * 100).toFixed(0);
+
+  if (percentage > 100) {
+    percentage = 100;
+  }
 
   res.status(200).json({
     status: 200,
@@ -111,5 +117,20 @@ export async function getDailyWaterIntake(req, res, next) {
       percentage,
       waterIntakes: [waterIntakes],
     },
+  });
+}
+
+export async function getMonthlyWaterIntake(req, res, next) {
+  const userId = req.user._id;
+  const year = req.body.year;
+  const month = req.body.month;
+  const { dailyNorma } = await UsersCollection.findById(userId);
+  const data = await getAllWaterIntakes(userId);
+
+  const monthly = createMonthData(data, year, month, dailyNorma);
+  res.status(200).json({
+    status: 200,
+    message: 'Monthly water intake retrieved successfully',
+    data: monthly,
   });
 }

@@ -1,5 +1,5 @@
 import { UsersCollection } from '../db/models/user.js';
-import { WaterIntakeCollection } from '../models/water.js';
+import { WaterIntakeCollection } from '../db/models/water.js';
 
 export async function userDailyNorm(dailyNorma, userId) {
   return await UsersCollection.findByIdAndUpdate(
@@ -34,4 +34,8 @@ export async function getWaterIntake(userId) {
     userId,
     date: { $gte: today },
   });
+}
+
+export async function getAllWaterIntakes(userId) {
+  return WaterIntakeCollection.find({ userId });
 }

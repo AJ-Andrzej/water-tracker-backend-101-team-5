@@ -5,6 +5,7 @@ import {
   updateWaterIntakes,
   deleteWaterIntakes,
   getDailyWaterIntake,
+  getMonthlyWaterIntake,
 } from '../controllers/water.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
@@ -45,5 +46,12 @@ router.delete(
 );
 
 router.get('/user/daily-water', authenticate, ctrlWrapper(getDailyWaterIntake));
+
+router.get(
+  '/user/monthly-water',
+  authenticate,
+  jsonParser,
+  ctrlWrapper(getMonthlyWaterIntake),
+);
 
 export default router;

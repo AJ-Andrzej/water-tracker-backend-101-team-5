@@ -4,7 +4,7 @@ function getDaysInMonth(year, month) {
 
 function filterByMonth(data, year, month) {
   return data.filter((item) => {
-    const [recordYear, recordMonth] = item.date.split('-');
+    const [recordYear, recordMonth] = item.date.toString().split('-');
     return parseInt(recordYear) === year && parseInt(recordMonth) === month;
   });
 }
