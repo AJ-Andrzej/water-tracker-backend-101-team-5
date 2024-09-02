@@ -1,0 +1,33 @@
+tags:
+  - Water
+summary: Delete a water intakes
+operationId: delateWater
+description: 'Delete a water intakes'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: 66c4b8bd4719066469ce2d02
+responses:
+  '204':
+    description: 'Delete a water intakes'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+          properties:
+            status:
+              type: integer
+              example: 204
+            message:
+              type: string
+              example: Successfully deleted water intakes
+  '404':
+    $ref: ..\..\..\components\responses\404.yaml

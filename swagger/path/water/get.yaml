@@ -1,0 +1,74 @@
+#/swagger/paths/students/get.yaml
+
+tags:
+  - Water
+summary: Get list of daily water
+operationId: getDailyWater
+description: 'Get list of daily water with this endpoint'
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: Successfully found contacts!
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found daily water!
+            data:
+              type: object
+              required:
+                - percentage
+                - waterIntakes
+              properties:
+                percentage:
+                  type: number
+                  properties:
+                    percentage:
+                      description: 'Percentage of daily water'
+                      type: number
+                      example: '63'
+                waterIntakes:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - id
+                      - userId
+                      - amount
+                      - time
+                      - date
+                    properties:
+                      _id:
+                        description: 'Id of users object'
+                        type: string
+                        example: 66c4b8bd4719066469ce2d02
+                      userId:
+                        description: 'Id of user'
+                        type: string
+                        example: 66c4b8bd4719066469ce2d02
+                      amount:
+                        description: 'Amount of water'
+                        type: number
+                        example: 450
+                      time:
+                        description: 'Time of add water'
+                        type: string
+                        example: '11:35'
+                      date:
+                        description: 'Date of water'
+                        type: string
+                        example: '2024-09-02'
+
+  '404':
+    $ref: '../../components/responses/404.yaml'

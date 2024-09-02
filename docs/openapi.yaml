@@ -15,6 +15,21 @@ servers:
   - url: http://localhost:3000
   - url: https://example.com/api/v1
 paths:
+  /user/delete-water/{id}:
+    delete:
+      $ref: ../swagger/path/water/{id}/delete.yaml
+  /user/update-water/{id}:
+    patch:
+      $ref: ../swagger/path/water/{id}/patch.yaml
+  /user/daily-norma:
+    post:
+      $ref: ../swagger/path/water/dailyPost.yaml
+  /user/add-water:
+    post:
+      $ref: ../swagger/path/water/addPost.yaml
+  /user/daily-water:
+    get:
+      $ref: ../swagger/path/water/get.yaml
 components:
   securitySchemes:
     bearerAuth:

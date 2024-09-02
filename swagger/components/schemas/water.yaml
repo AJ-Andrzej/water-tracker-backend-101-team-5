@@ -1,0 +1,28 @@
+type: object
+required:
+  - _id
+  - userId
+  - amount
+  - time
+  - date
+properties:
+  _id:
+    description: 'Water id'
+    type: string
+    example: 66c4b8bd4719066469ce2d02
+  userId:
+    description: "User's id"
+    type: string
+    example: 66c4b8bd4719066469ce2d02
+  amount:
+    description: 'Amount of water'
+    type: number
+    example: 1500
+  time:
+    description: 'Time of add water'
+    type: string
+    example: '11:35'
+  date:
+    description: 'Date of add water'
+    type: string
+    example: '2024-09-01'

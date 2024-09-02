@@ -1,0 +1,45 @@
+tags:
+  - Water
+summary: Set add water of user
+operationId: dailyNorm
+description: 'Post daily norma of water'
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - time
+          - amount
+        properties:
+          time:
+            description: Add time of water
+            type: string
+            example: '11:35'
+          amount:
+            description: Set amount of water
+            type: number
+            example: 250
+
+responses:
+  '201':
+    description: Add a water intakes
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully added a water intakes!
+  '404':
+    $ref: ..\..\components\responses\404.yaml
