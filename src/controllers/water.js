@@ -6,7 +6,7 @@ import {
   getWaterIntake,
 } from '../services/water.js';
 import createHttpError from 'http-errors';
-import { UsersCollection } from '../models/user.js';
+import { UsersCollection } from '../db/models/user.js';
 
 export async function waterController(req, res, next) {
   const { dailyNorma } = req.body;

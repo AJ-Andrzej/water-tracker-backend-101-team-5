@@ -26,6 +26,10 @@
     {
       "name": "Auth",
       "description": "Auth operations."
+    },
+    {
+      "name": "Water",
+      "description": "Water intake operations."
     }
   ],
   "paths": {
@@ -125,7 +129,280 @@
                     "example": 245
                   }
                 }
-=======
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Update a water intakes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully updated a water intakes!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/user/daily-norma": {
+      "post": {
+        "tags": [
+          "Water"
+        ],
+        "summary": "Set daily norma of user",
+        "operationId": "waterId",
+        "description": "Set daily norma of water",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "dailyNorm"
+                ],
+                "properties": {
+                  "dailyNorma": {
+                    "description": "Daily norma of water",
+                    "type": "number",
+                    "example": 1500
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Set daily norm of water",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully add a water daily norma!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/user/add-water": {
+      "post": {
+        "tags": [
+          "Water"
+        ],
+        "summary": "Set add water of user",
+        "operationId": "dailyNorm",
+        "description": "Post daily norma of water",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "time",
+                  "amount"
+                ],
+                "properties": {
+                  "time": {
+                    "description": "Add time of water",
+                    "type": "string",
+                    "example": "11:35"
+                  },
+                  "amount": {
+                    "description": "Set amount of water",
+                    "type": "number",
+                    "example": 250
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Add a water intakes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully added a water intakes!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/user/daily-water": {
+      "get": {
+        "tags": [
+          "Water"
+        ],
+        "summary": "Get list of daily water",
+        "operationId": "getDailyWater",
+        "description": "Get list of daily water with this endpoint",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found contacts!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found daily water!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "percentage",
+                        "waterIntakes"
+                      ],
+                      "properties": {
+                        "percentage": {
+                          "type": "number",
+                          "properties": {
+                            "percentage": {
+                              "description": "Percentage of daily water",
+                              "type": "number",
+                              "example": "63"
+                            }
+                          }
+                        },
+                        "waterIntakes": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "id",
+                              "userId",
+                              "amount",
+                              "time",
+                              "date"
+                            ],
+                            "properties": {
+                              "_id": {
+                                "description": "Id of users object",
+                                "type": "string",
+                                "example": "66c4b8bd4719066469ce2d02"
+                              },
+                              "userId": {
+                                "description": "Id of user",
+                                "type": "string",
+                                "example": "66c4b8bd4719066469ce2d02"
+                              },
+                              "amount": {
+                                "description": "Amount of water",
+                                "type": "number",
+                                "example": 450
+                              },
+                              "time": {
+                                "description": "Time of add water",
+                                "type": "string",
+                                "example": "11:35"
+                              },
+                              "date": {
+                                "description": "Date of water",
+                                "type": "string",
+                                "example": "2024-09-02"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
     "/auth/register": {
       "post": {
         "tags": [
@@ -183,110 +460,6 @@
           }
         },
         "responses": {
-
-          "201": {
-            "description": "Update a water intakes",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 201
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Successfully updated a water intakes!"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          }
-        }
-      }
-    },
-    "/user/daily-norma": {
-      "post": {
-        "tags": [
-          "Water"
-        ],
-        "summary": "Set daily norma of user",
-        "operationId": "waterId",
-        "description": "Set daily norma of water",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "dailyNorm"
-                ],
-                "properties": {
-                  "dailyNorm": {
-                    "description": "Daily norma of water",
-                    "type": "number",
-                    "example": 1500
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Set daily norm of water",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 201
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Successfully add a water daily norma!"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          }
-        }
-      }
-    },
-    "/user/add-water": {
-      "post": {
-        "tags": [
-          "Water"
-        ],
-        "summary": "Post daily norma of user",
-        "operationId": "dailyNorm",
-        "description": "Post daily norma of water",
           "200": {
             "description": "Successfully logged in a user",
             "content": {
@@ -390,71 +563,14 @@
         ],
         "requestBody": {
           "content": {
-
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "dailyNorm"
-                ],
-                "properties": {
-                  "dailyNorm": {
-                    "description": "D of water",
-                    "type": "number",
-                    "example": 1500
-                  }
-                }
-
             "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateAvatarRequest"
-
               }
             }
           }
         },
         "responses": {
-
-          "201": {
-            "description": "Creates a contact",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 201
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Successfully created a contact!"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          }
-        }
-      }
-    },
-    "/user/daily-water": {
-      "get": {
-        "tags": [
-          "Water"
-        ],
-        "summary": "Get list of daily water",
-        "operationId": "getDailyWater",
-        "description": "Get list of daily water with this endpoint",
-
           "200": {
             "description": "Avatar updated successfully",
             "content": {
@@ -522,56 +638,11 @@
         "summary": "Update user profile",
         "operationId": "updateUser",
         "description": "Update the profile information of the currently authenticated user.",
-
         "security": [
           {
             "bearerAuth": []
           }
         ],
-
-        "responses": {
-          "200": {
-            "description": "Successfully found contacts!",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Successfully found daily water!"
-                    },
-                    "data": {
-                      "type": "object",
-                      "required": [
-                        "data"
-                      ],
-                      "properties": {
-                        "data": {
-                          "type": "object",
-                          "items": {
-                            "$ref": "#/components/schemas/water"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-
         "requestBody": {
           "content": {
             "application/json": {
@@ -603,7 +674,6 @@
           },
           "500": {
             "$ref": "#/components/responses/GeneralError"
-
           }
         }
       }
@@ -803,6 +873,30 @@
       }
     },
     "responses": {
+      "404": {
+        "description": "Something went wrong",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                }
+              }
+            }
+          }
+        }
+      },
       "NotFound": {
         "description": "Entity not found.",
         "content": {
@@ -840,71 +934,6 @@
             "schema": {
               "$ref": "#/components/schemas/ErrorResponse"
             }
-          }
-        }
-      }
-    },
-    "responses": {
-      "404": {
-        "description": "Something went wrong",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "status",
-                "message"
-              ],
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Something went wrong"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "schemas": {
-      "water": {
-        "type": "object",
-        "required": [
-          "_id",
-          "userId",
-          "amount",
-          "time",
-          "date"
-        ],
-        "properties": {
-          "_id": {
-            "description": "Water id",
-            "type": "string",
-            "example": "66c4b8bd4719066469ce2d02"
-          },
-          "userId": {
-            "description": "User's id",
-            "type": "string",
-            "example": "66c4b8bd4719066469ce2d02"
-          },
-          "amount": {
-            "description": "Amount of water",
-            "type": "number",
-            "example": 1500
-          },
-          "time": {
-            "description": "Time of add water",
-            "type": "string",
-            "example": "11:35"
-          },
-          "date": {
-            "description": "Date of add water",
-            "type": "string",
-            "example": "2024-09-01"
           }
         }
       }

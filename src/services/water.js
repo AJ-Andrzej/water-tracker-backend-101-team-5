@@ -1,4 +1,4 @@
-import { UsersCollection } from '../models/user.js';
+import { UsersCollection } from '../db/models/user.js';
 import { WaterIntakeCollection } from '../models/water.js';
 
 export async function userDailyNorm(dailyNorma, userId) {
