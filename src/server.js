@@ -10,8 +10,20 @@ import { env } from './utils/env.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
+const whitelist = [
+  'https://water-tracker-101-team-5.vercel.app',
+  'http://127.0.0.1:5173',
+];
+
 const corsOptions = {
-  origin: 'https://water-tracker-101-team-5.vercel.app',
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
   optionsSuccessStatus: 200,
 };
 
