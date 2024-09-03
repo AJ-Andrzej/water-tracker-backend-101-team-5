@@ -28,8 +28,8 @@ export function deleteWater(waterId, userId) {
 }
 
 export async function getWaterIntake(userId) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = new Date().toISOString().split('T')[0];
+
   return await WaterIntakeCollection.find({
     userId,
     date: { $gte: today },
