@@ -20,10 +20,12 @@ export const registerUserController = async (req, res) => {
     const session = await loginUser(req.body);
     res.cookie('refreshToken', session.refreshToken, {
       httpOnly: true,
+      sameSite: 'None',
       expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
     });
     res.cookie('sessionId', session._id, {
       httpOnly: true,
+      sameSite: 'None',
       expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
     });
 
@@ -42,10 +44,12 @@ export const loginUserController = async (req, res) => {
 
     res.cookie('refreshToken', session.refreshToken, {
       httpOnly: true,
+      sameSite: 'None',
       expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
     });
     res.cookie('sessionId', session._id, {
       httpOnly: true,
+      sameSite: 'None',
       expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
     });
 
@@ -68,10 +72,12 @@ export const logoutUserController = async (req, res) => {
 const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
+    sameSite: 'None',
     expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
   });
   res.cookie('sessionId', session._id, {
     httpOnly: true,
+    sameSite: 'None',
     expires: new Date(Date.now() + REFRESH_TOKEN_TTL),
   });
 };
