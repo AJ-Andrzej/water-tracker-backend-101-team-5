@@ -27,13 +27,18 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
+const openCorsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200,
+};
+
 const PORT = Number(env('PORT', '3000'));
 export function setupServer() {
   const app = express();
 
+  app.use('/api-docs', cors(openCorsOptions), swaggerDocs());
   app.use(cors(corsOptions));
   app.use('/uploads', express.static(UPLOAD_DIR));
-  app.use('/api-docs', swaggerDocs());
   app.use(cookieParser());
   app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
