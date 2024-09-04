@@ -35,6 +35,10 @@ export function setupServer() {
   app.use('/uploads', express.static(UPLOAD_DIR));
   app.use('/api-docs', swaggerDocs());
   app.use(cookieParser());
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    next();
+  });
 
   app.use(authRouter);
   app.use(waterRouter);
