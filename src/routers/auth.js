@@ -43,12 +43,12 @@ authRouter.patch(
   ctrlWrapper(updateAvatarController),
 );
 authRouter.get(
-  '/auth/user',
+  '/users/profile',
   authenticate,
   ctrlWrapper(getProfileInfoController),
 );
 authRouter.patch(
-  '/auth/user',
+  '/users/update',
   jsonParser,
   authenticate,
   validateBody(updateProfileInfoSchema),

@@ -1,5 +1,5 @@
 tags:
-  - Water
+  - Users
 summary: Set daily norma of user
 operationId: waterId
 description: 'Set daily norma of water'

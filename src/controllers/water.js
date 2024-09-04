@@ -95,7 +95,6 @@ export async function getDailyWaterIntake(req, res, next) {
   const userId = req.user._id;
 
   const waterIntakes = await getWaterIntake(userId);
-  console.log(waterIntakes);
 
   const totalAmount = waterIntakes.reduce(
     (sum, intake) => sum + intake.amount,

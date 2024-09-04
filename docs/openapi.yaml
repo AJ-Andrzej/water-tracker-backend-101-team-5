@@ -15,25 +15,27 @@ security:
 tags:
   - name: Auth
     description: Auth operations.
+  - name: Users
+    description: Users operations.
   - name: Water
     description: Water intake operations.
 paths:
-  /user/delete-water/{id}:
+  /water/delete:
     delete:
       $ref: ../swagger/path/water/{id}/delete.yaml
-  /user/update-water/{id}:
+  /water/update:
     patch:
       $ref: ../swagger/path/water/{id}/patch.yaml
-  /user/daily-norma:
+  /users/daily-norma:
     post:
       $ref: ../swagger/path/water/dailyPost.yaml
-  /user/add-water:
+  /water/add:
     post:
       $ref: ../swagger/path/water/addPost.yaml
-  /user/daily-water:
+  /water/day:
     get:
       $ref: ../swagger/path/water/get.yaml
-  /user/monthly-water:
+  /water/month:
     get:
       $ref: ../swagger/path/water/monthly.yaml
   /auth/register:
@@ -132,10 +134,10 @@ paths:
         '500':
           $ref: '#/components/responses/GeneralError'
 
-  /auth/avatar:
+  /users/avatar:
     patch:
       tags:
-        - Auth
+        - Users
       summary: Update user avatar
       operationId: updateAvatar
       description: Update the avatar of the currently authenticated user.
@@ -162,10 +164,10 @@ paths:
         '500':
           $ref: '#/components/responses/GeneralError'
 
-  /auth/user:
+  /users/profile:
     get:
       tags:
-        - Auth
+        - Users
       summary: Get user
       operationId: getUser
       description: Retrieve the user information of the currently authenticated user.
@@ -184,9 +186,10 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/GeneralError'
+  /users/update:
     patch:
       tags:
-        - Auth
+        - Users
       summary: Update user profile
       operationId: updateUser
       description: Update the profile information of the currently authenticated user.

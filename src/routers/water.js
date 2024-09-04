@@ -16,7 +16,7 @@ const router = express.Router();
 const jsonParser = express.json();
 
 router.post(
-  '/user/daily-norma',
+  '/users/daily-norma',
   authenticate,
   jsonParser,
   validateBody(waterDailyNormSchema),
@@ -24,7 +24,7 @@ router.post(
 );
 
 router.post(
-  '/user/add-water',
+  '/water/add',
   authenticate,
   jsonParser,
   validateBody(addWaterSchema),
@@ -32,7 +32,7 @@ router.post(
 );
 
 router.patch(
-  '/user/update-water/:waterId',
+  '/water/update/:waterId',
   authenticate,
   jsonParser,
   validateBody(addWaterSchema),
@@ -40,15 +40,15 @@ router.patch(
 );
 
 router.delete(
-  '/user/delete-water/:waterId',
+  '/water/delete/:waterId',
   authenticate,
   ctrlWrapper(deleteWaterIntakes),
 );
 
-router.get('/user/daily-water', authenticate, ctrlWrapper(getDailyWaterIntake));
+router.get('/water/day', authenticate, ctrlWrapper(getDailyWaterIntake));
 
 router.get(
-  '/user/monthly-water',
+  '/water/month',
   authenticate,
   jsonParser,
   ctrlWrapper(getMonthlyWaterIntake),
