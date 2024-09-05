@@ -7,14 +7,15 @@ import {
   updateAvatarController,
   getProfileInfoController,
   updateProfileInfoController,
+  requestResetEmailController,
+  resetPasswordController
 } from '../controllers/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   registerUserSchema,
   loginUserSchema,
   updateProfileInfoSchema,
-  // changePasswordSchema,
-} from '../validation/auth.js';
+  requestResetEmailSchema, resetPasswordSchema} from '../validation/auth.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
@@ -53,5 +54,18 @@ authRouter.patch(
   authenticate,
   validateBody(updateProfileInfoSchema),
   ctrlWrapper(updateProfileInfoController),
+);
+authRouter.post(
+  '/auth/send-reset-email',
+  jsonParser,
+  validateBody(requestResetEmailSchema),
+  ctrlWrapper(requestResetEmailController),
+);
+
+authRouter.post(
+  '/auth/reset-password',
+  jsonParser,
+  validateBody(resetPasswordSchema),
+  ctrlWrapper(resetPasswordController),
 );
 export default authRouter;

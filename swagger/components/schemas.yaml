@@ -74,6 +74,30 @@ schemas:
         type: string
         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
+        SendResetEmailRequest:
+          type: object
+          required:
+            - email
+          properties:
+            email:
+              type: string
+              format: email
+              example: john.doe@example.com
+
+        ResetPasswordRequest:
+          type: object
+          required:
+            - token
+            - password
+          properties:
+            token:
+              type: string
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+            password:
+              type: string
+              format: password
+              example: newpassword123
+
   SuccessResponse:
     type: object
     properties:
