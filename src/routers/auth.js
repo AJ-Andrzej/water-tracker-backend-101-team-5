@@ -8,17 +8,22 @@ import {
   getProfileInfoController,
   updateProfileInfoController,
   requestResetEmailController,
-  resetPasswordController
+  resetPasswordController,
+  getGoogleOAuthUrlController,
+  loginWithGoogleController,
 } from '../controllers/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   registerUserSchema,
   loginUserSchema,
   updateProfileInfoSchema,
-  requestResetEmailSchema, resetPasswordSchema} from '../validation/auth.js';
+  requestResetEmailSchema, resetPasswordSchema,
+  loginWithGoogleOAuthSchema} from '../validation/auth.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
+
+
 const authRouter = Router();
 const jsonParser = json();
 
@@ -67,5 +72,11 @@ authRouter.post(
   jsonParser,
   validateBody(resetPasswordSchema),
   ctrlWrapper(resetPasswordController),
+);
+authRouter.get('/auth/get-oauth-url', ctrlWrapper(getGoogleOAuthUrlController));
+authRouter.post(
+  '/auth/confirm-oauth',
+  validateBody(loginWithGoogleOAuthSchema),
+  ctrlWrapper(loginWithGoogleController),
 );
 export default authRouter;
