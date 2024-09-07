@@ -115,7 +115,7 @@ export async function getDailyWaterIntake(req, res, next) {
     message: 'Daily water intake retrieved successfully',
     data: {
       percentage,
-      waterIntakes: [waterIntakes],
+      waterIntakes: waterIntakes,
     },
   });
 }

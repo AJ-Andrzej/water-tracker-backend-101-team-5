@@ -40,323 +40,322 @@ paths:
       $ref: ../swagger/path/water/monthly.yaml
   /auth/register:
     post:
-      $ref: ../swagger/paths/auth/register.yaml
+      $ref: '../swagger/path/auth/register.yaml'
   /auth/login:
     post:
-      $ref: ../swagger/paths/auth/login.yaml
+      $ref: '../swagger/path/auth/login.yaml'
   /auth/logout:
     post:
-      $ref: ../swagger/paths/auth/logout.yaml
+      $ref: '../swagger/path/auth/logout.yaml'
   /auth/refresh:
     post:
-      $ref: ../swagger/paths/auth/refresh.yaml
+      $ref: '../swagger/path/auth/refresh.yaml'
   /auth/avatar:
     patch:
-      $ref: ../swagger/paths/auth/avatar.yaml
+      $ref: '../swagger/path/auth/avatar.yaml'
   /auth/user:
     get:
-      $ref: ../swagger/paths/auth/getUser.yaml
+      $ref: '../swagger/path/auth/getUser.yaml'
     patch:
-      $ref: ../swagger/paths/auth/updateUser.yaml
+      $ref: '../swagger/path/auth/updateUser.yaml'
   /auth/send-reset-email:
     post:
-      $ref: ../swagger/paths/auth/send-reset-email.yaml
+      $ref: '../swagger/path/auth/send-reset-email.yaml'
   /auth/reset-password:
     post:
-      $ref: ../swagger/paths/auth/reset-pwd.yaml
+      $ref: '../swagger/path/auth/reset-pwd.yaml'
   /auth/get-oauth-url:
     get:
-      $ref: ../swagger/paths/auth/get-google-oauth.yaml
+      $ref: '../swagger/path/auth/get-google-oauth.yaml'
   /auth/confirm-oauth:
     post:
-      $ref: ../swagger/paths/auth/confirm-google-oauth.yaml
+      $ref: '../swagger/path/auth/confirm-google-oauth.yaml'
+#   /auth/register:
+#     post:
+#       tags:
+# - Auth
+#       summary: Register a new user
+#       operationId: registerUser
+#       description: Register a new user with the provided credentials.
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/RegisterUserRequest'
+#       responses:
+#         '201':
+#           description: Successfully registered a user
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/SuccessResponse'
+#         '400':
+#           $ref: '#/components/responses/IllegalInput'
+#         '500':
+#           $ref: '#/components/responses/GeneralError'
 
-  /auth/register:
-    post:
-      tags:
-        - Auth
-      summary: Register a new user
-      operationId: registerUser
-      description: Register a new user with the provided credentials.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RegisterUserRequest'
-      responses:
-        '201':
-          description: Successfully registered a user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponse'
-        '400':
-          $ref: '#/components/responses/IllegalInput'
-        '500':
-          $ref: '#/components/responses/GeneralError'
+#   /auth/login:
+#     post:
+#       tags:
+#         - Auth
+#       summary: Login a user
+#       operationId: loginUser
+#       description: Login a user with the provided credentials.
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/LoginUserRequest'
+#       responses:
+#         '200':
+#           description: Successfully logged in a user
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/LoginResponse'
+#         '400':
+#           $ref: '#/components/responses/IllegalInput'
+#         '401':
+#           description: Unauthorized
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/ErrorResponse'
+#         '500':
+#           $ref: '#/components/responses/GeneralError'
 
-  /auth/login:
-    post:
-      tags:
-        - Auth
-      summary: Login a user
-      operationId: loginUser
-      description: Login a user with the provided credentials.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginUserRequest'
-      responses:
-        '200':
-          description: Successfully logged in a user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
-        '400':
-          $ref: '#/components/responses/IllegalInput'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          $ref: '#/components/responses/GeneralError'
+#   /auth/logout:
+#     post:
+#       tags:
+#         - Auth
+#       summary: Logout a user
+#       operationId: logoutUser
+#       description: Logout the currently authenticated user.
+#       responses:
+#         '204':
+#           description: Successfully logged out
+#         '400':
+#           $ref: '#/components/responses/IllegalInput'
+#         '404':
+#           description: Session not found
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/ErrorResponse'
+#         '500':
+#           $ref: '#/components/responses/GeneralError'
 
-  /auth/logout:
-    post:
-      tags:
-        - Auth
-      summary: Logout a user
-      operationId: logoutUser
-      description: Logout the currently authenticated user.
-      responses:
-        '204':
-          description: Successfully logged out
-        '400':
-          $ref: '#/components/responses/IllegalInput'
-        '404':
-          description: Session not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          $ref: '#/components/responses/GeneralError'
+#   /auth/refresh:
+#     post:
+#       tags:
+#         - Auth
+#       summary: Refresh user session
+#       operationId: refreshUserSession
+#       description: Refresh the session of the currently authenticated user.
+#       responses:
+#         '200':
+#           description: Successfully refreshed the session
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/LoginResponse'
+#         '401':
+#           $ref: '#/components/responses/Unauthorized'
+#         '500':
+#           $ref: '#/components/responses/GeneralError'
+# /auth/send-reset-email:
+#     post:
+#       tags:
+#         - auth
+#       summary: Send password reset email
+#       operationId: sendResetEmail
+#       description: Send a password reset email to the user.
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/SendResetEmailRequest'
+#       responses:
+#         '200':
+#           description: Reset password email has been successfully sent
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/SuccessResponse'
+#         '404':
+#           description: User not found
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/ErrorResponse'
+#         '500':
+#           $ref: '#/components/responses/GeneralError'
+#   /auth/reset-pwd:
+#     post:
+#       tags:
+#         - auth
+#       summary: Reset password
+#       operationId: resetPassword
+#       description: Reset the password of the user using the provided token.
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/ResetPasswordRequest'
+#       responses:
+#         '200':
+#           description: Password has been successfully reset
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/SuccessResponse'
+#         '401':
+#           description: Token is expired or invalid
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/ErrorResponse'
+#         '404':
+#           description: User not found
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/ErrorResponse'
+#         '500':
+#           $ref: '#/components/responses/GeneralError'
+#   /auth/get-google-oauth-url:
+#     get:
+#       tags:
+#         - auth
+#       summary: Get Google OAuth URL
+#       operationId: getGoogleOAuthUrl
+#       description: Retrieve the Google OAuth URL for authentication
+#       responses:
+#         '200':
+#           description: Successfully retrieved Google OAuth URL
+#           content:
+#             application/json:
+#               schema:
+#                 type: object
+#                 properties:
+#                   url:
+#                     type: string
+#                     description: Google OAuth URL
+#         '500':
+#           $ref: '#/components/responses/GeneralError'
 
-  /auth/refresh:
-    post:
-      tags:
-        - Auth
-      summary: Refresh user session
-      operationId: refreshUserSession
-      description: Refresh the session of the currently authenticated user.
-      responses:
-        '200':
-          description: Successfully refreshed the session
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '500':
-          $ref: '#/components/responses/GeneralError'
-/auth/send-reset-email:
-    post:
-      tags:
-        - auth
-      summary: Send password reset email
-      operationId: sendResetEmail
-      description: Send a password reset email to the user.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SendResetEmailRequest'
-      responses:
-        '200':
-          description: Reset password email has been successfully sent
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponse'
-        '404':
-          description: User not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          $ref: '#/components/responses/GeneralError'
-  /auth/reset-pwd:
-    post:
-      tags:
-        - auth
-      summary: Reset password
-      operationId: resetPassword
-      description: Reset the password of the user using the provided token.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ResetPasswordRequest'
-      responses:
-        '200':
-          description: Password has been successfully reset
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponse'
-        '401':
-          description: Token is expired or invalid
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: User not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          $ref: '#/components/responses/GeneralError'
-  /auth/get-google-oauth-url:
-    get:
-      tags:
-        - auth
-      summary: Get Google OAuth URL
-      operationId: getGoogleOAuthUrl
-      description: Retrieve the Google OAuth URL for authentication
-      responses:
-        '200':
-          description: Successfully retrieved Google OAuth URL
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  url:
-                    type: string
-                    description: Google OAuth URL
-        '500':
-          $ref: '#/components/responses/GeneralError'
+#   /auth/confirm-google-oauth-url:
+#     post:
+#       tags:
+#         - auth
+#       summary: Confirm Google OAuth
+#       operationId: confirmGoogleOAuth
+#       description: Confirm Google OAuth authentication and login
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/LoginWithGoogleOAuthSchema'
+#       responses:
+#         '200':
+#           description: Successfully logged in via Google OAuth
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/LoginResponse'
+#         '400':
+#           $ref: '#/components/responses/BadRequest'
+#         '401':
+#           $ref: '#/components/responses/Unauthorized'
+#         '500':
+#           $ref: '#/components/responses/GeneralError'
 
-  /auth/confirm-google-oauth-url:
-    post:
-      tags:
-        - auth
-      summary: Confirm Google OAuth
-      operationId: confirmGoogleOAuth
-      description: Confirm Google OAuth authentication and login
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginWithGoogleOAuthSchema'
-      responses:
-        '200':
-          description: Successfully logged in via Google OAuth
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '500':
-          $ref: '#/components/responses/GeneralError'
+#   /users/avatar:
+#     patch:
+#       tags:
+#         - Users
+#       summary: Update user avatar
+#       operationId: updateAvatar
+#       description: Update the avatar of the currently authenticated user.
+#       security:
+#         - bearerAuth: []
+#       requestBody:
+#         content:
+#           multipart/form-data:
+#             schema:
+#               $ref: '#/components/schemas/UpdateAvatarRequest'
+#       responses:
+#         '200':
+#           description: Avatar updated successfully
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/AvatarResponse'
+#         '401':
+#           $ref: '#/components/responses/Unauthorized'
+#         '400':
+#           $ref: '#/components/responses/IllegalInput'
+#         '404':
+#           $ref: '#/components/responses/NotFound'
+#         '500':
+#           $ref: '#/components/responses/GeneralError'
 
-  /users/avatar:
-    patch:
-      tags:
-        - Users
-      summary: Update user avatar
-      operationId: updateAvatar
-      description: Update the avatar of the currently authenticated user.
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/UpdateAvatarRequest'
-      responses:
-        '200':
-          description: Avatar updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AvatarResponse'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '400':
-          $ref: '#/components/responses/IllegalInput'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/GeneralError'
-
-  /users/profile:
-    get:
-      tags:
-        - Users
-      summary: Get user
-      operationId: getUser
-      description: Retrieve the user information of the currently authenticated user.
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Successfully retrieved user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserResponse'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/GeneralError'
-  /users/update:
-    patch:
-      tags:
-        - Users
-      summary: Update user profile
-      operationId: updateUser
-      description: Update the profile information of the currently authenticated user.
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateUserRequest'
-      responses:
-        '200':
-          description: User profile updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserResponse'
-        '400':
-          $ref: '#/components/responses/IllegalInput'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/GeneralError'
+#   /users/profile:
+#     get:
+#       tags:
+#         - Users
+#       summary: Get user
+#       operationId: getUser
+#       description: Retrieve the user information of the currently authenticated user.
+#       security:
+#         - bearerAuth: []
+#       responses:
+#         '200':
+#           description: Successfully retrieved user
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/UserResponse'
+#         '401':
+#           $ref: '#/components/responses/Unauthorized'
+#         '404':
+#           $ref: '#/components/responses/NotFound'
+#         '500':
+#           $ref: '#/components/responses/GeneralError'
+#   /users/update:
+#     patch:
+#       tags:
+#         - Users
+#       summary: Update user profile
+#       operationId: updateUser
+#       description: Update the profile information of the currently authenticated user.
+#       security:
+#         - bearerAuth: []
+#       requestBody:
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/UpdateUserRequest'
+#       responses:
+#         '200':
+#           description: User profile updated successfully
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/UserResponse'
+#         '400':
+#           $ref: '#/components/responses/IllegalInput'
+#         '401':
+#           $ref: '#/components/responses/Unauthorized'
+#         '404':
+#           $ref: '#/components/responses/NotFound'
+#         '500':
+#           $ref: '#/components/responses/GeneralError'
 
 components:
   securitySchemes:
@@ -364,201 +363,200 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+#   schemas:
+#     RegisterUserRequest:
+#       type: object
+#       required:
+#         - email
+#         - password
+#       properties:
+#         email:
+#           type: string
+#           format: email
+#           example: user@example.com
+#         password:
+#           type: string
+#           format: password
+#           example: password123
 
-  schemas:
-    RegisterUserRequest:
-      type: object
-      required:
-        - email
-        - password
-      properties:
-        email:
-          type: string
-          format: email
-          example: user@example.com
-        password:
-          type: string
-          format: password
-          example: password123
+#     LoginUserRequest:
+#       type: object
+#       required:
+#         - email
+#         - password
+#       properties:
+#         email:
+#           type: string
+#           format: email
+#           example: user@example.com
+#         password:
+#           type: string
+#           format: password
+#           example: password123
+#     LoginWithGoogleOAuthSchema:
+#             type: object
+#             required:
+#               - code
+#             properties:
+#               code:
+#                 type: string
+#                 description: Google OAuth code
 
-    LoginUserRequest:
-      type: object
-      required:
-        - email
-        - password
-      properties:
-        email:
-          type: string
-          format: email
-          example: user@example.com
-        password:
-          type: string
-          format: password
-          example: password123
-    LoginWithGoogleOAuthSchema:
-            type: object
-            required:
-              - code
-            properties:
-              code:
-                type: string
-                description: Google OAuth code
+#     UserResponse:
+#       type: object
+#       properties:
+#         id:
+#           type: string
+#           example: 60d0fe4f5311236168a109ca
+#         userName:
+#           type: string
+#           example: User
+#         email:
+#           type: string
+#           format: email
+#           example: user@example.com
+#         dailyNorma:
+#           type: number
+#           example: 2000
+#         gender:
+#           type: string
+#           enum: [Man, Woman]
+#           example: Man
+#         photo:
+#           type: string
+#           example: http://example.com/photo.jpg
 
-    UserResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 60d0fe4f5311236168a109ca
-        userName:
-          type: string
-          example: User
-        email:
-          type: string
-          format: email
-          example: user@example.com
-        dailyNorma:
-          type: number
-          example: 2000
-        gender:
-          type: string
-          enum: [Man, Woman]
-          example: Man
-        photo:
-          type: string
-          example: http://example.com/photo.jpg
+#     LoginResponse:
+#       type: object
+#       properties:
+#         accessToken:
+#           type: string
+#           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+#     SendResetEmailRequest:
+#       type: object
+#       required:
+#         - email
+#       properties:
+#         email:
+#           type: string
+#           format: email
+#           example: john.doe@example.com
+#     SuccessResponse:
+#       type: object
+#       properties:
+#         status:
+#           type: integer
+#           example: 200
+#         message:
+#           type: string
+#           example: User profile updated successfully
+#     ResetPasswordRequest:
+#       type: object
+#       required:
+#         - token
+#         - password
+#       properties:
+#         token:
+#           type: string
+#           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+#         password:
+#           type: string
+#           format: password
+#           example: newpassword123
+#     ErrorResponse:
+#       type: object
+#       properties:
+#         status:
+#           type: integer
+#           example: 404
+#         message:
+#           type: string
+#           example: Not Found
 
-    LoginResponse:
-      type: object
-      properties:
-        accessToken:
-          type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-    SendResetEmailRequest:
-      type: object
-      required:
-        - email
-      properties:
-        email:
-          type: string
-          format: email
-          example: john.doe@example.com
-    SuccessResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          example: 200
-        message:
-          type: string
-          example: User profile updated successfully
-    ResetPasswordRequest:
-      type: object
-      required:
-        - token
-        - password
-      properties:
-        token:
-          type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-        password:
-          type: string
-          format: password
-          example: newpassword123
-    ErrorResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          example: 404
-        message:
-          type: string
-          example: Not Found
+#     UpdateAvatarRequest:
+#       type: object
+#       properties:
+#         avatar:
+#           type: string
+#           format: binary
+#           description: The avatar image file to upload
+#       required:
+#         - avatar
 
-    UpdateAvatarRequest:
-      type: object
-      properties:
-        avatar:
-          type: string
-          format: binary
-          description: The avatar image file to upload
-      required:
-        - avatar
+#     AvatarResponse:
+#       type: object
+#       properties:
+#         status:
+#           type: integer
+#           example: 200
+#         message:
+#           type: string
+#           example: Avatar updated successfully
+#         data:
+#           type: object
+#           properties:
+#             avatarUrl:
+#               type: string
+#               example: http://example.com/uploads/avatar.jpg
 
-    AvatarResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          example: 200
-        message:
-          type: string
-          example: Avatar updated successfully
-        data:
-          type: object
-          properties:
-            avatarUrl:
-              type: string
-              example: http://example.com/uploads/avatar.jpg
+#     UpdateUserRequest:
+#       type: object
+#       properties:
+#         email:
+#           type: string
+#           format: email
+#           example: newemail@example.com
+#         currentPassword:
+#           type: string
+#           format: password
+#           example: oldPassword123
+#         newPassword:
+#           type: string
+#           format: password
+#           example: newPassword123
+#         confirmPassword:
+#           type: string
+#           format: password
+#           example: newPassword123
+#         userName:
+#           type: string
+#           example: New User Name
+#         dailyNorma:
+#           type: number
+#           example: 2000
+#         gender:
+#           type: string
+#           enum: [Man, Woman]
+#           example: Man
 
-    UpdateUserRequest:
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-          example: newemail@example.com
-        currentPassword:
-          type: string
-          format: password
-          example: oldPassword123
-        newPassword:
-          type: string
-          format: password
-          example: newPassword123
-        confirmPassword:
-          type: string
-          format: password
-          example: newPassword123
-        userName:
-          type: string
-          example: New User Name
-        dailyNorma:
-          type: number
-          example: 2000
-        gender:
-          type: string
-          enum: [Man, Woman]
-          example: Man
-
-  responses:
-    NotFound:
-      description: Entity not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    IllegalInput:
-      description: Illegal input for operation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    GeneralError:
-      description: Internal Server Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-              description: Bad Request
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+#   responses:
+#     NotFound:
+#       description: Entity not found.
+#       content:
+#         application/json:
+#           schema:
+#             $ref: '#/components/schemas/ErrorResponse'
+#     IllegalInput:
+#       description: Illegal input for operation.
+#       content:
+#         application/json:
+#           schema:
+#             $ref: '#/components/schemas/ErrorResponse'
+#     GeneralError:
+#       description: Internal Server Error
+#       content:
+#         application/json:
+#           schema:
+#             $ref: '#/components/schemas/ErrorResponse'
+#     BadRequest:
+#               description: Bad Request
+#               content:
+#                 application/json:
+#                   schema:
+#                     $ref: '#/components/schemas/ErrorResponse'
+#     Unauthorized:
+#       description: Unauthorized
+#       content:
+#         application/json:
+#           schema:
+#             $ref: '#/components/schemas/ErrorResponse'
