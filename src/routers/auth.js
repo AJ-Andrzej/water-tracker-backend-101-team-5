@@ -37,7 +37,7 @@ authRouter.post('/auth/logout', ctrlWrapper(logoutUserController));
 authRouter.post('/auth/refresh', ctrlWrapper(refreshUserSessionController));
 
 authRouter.patch(
-  '/auth/avatar',
+  '/users/avatar',
   authenticate,
   upload.single('avatar'),
   ctrlWrapper(updateAvatarController),
