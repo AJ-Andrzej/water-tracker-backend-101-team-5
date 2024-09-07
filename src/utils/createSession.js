@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto';
-import { ACESS_TOKEN_TTL, REFRESH_TOKEN_TTL } from '../constants/index.js';
+import { ACCESS_TOKEN_TTL, REFRESH_TOKEN_TTL } from '../constants/index.js';
 
 export const createSession = () => {
   const accessToken = randomBytes(30).toString('base64');
@@ -8,7 +8,7 @@ export const createSession = () => {
   return {
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + ACESS_TOKEN_TTL),
+    accessTokenValidUntil: new Date(Date.now() + ACCESS_TOKEN_TTL),
     refreshTokenValidUntil: new Date(Date.now() + REFRESH_TOKEN_TTL),
   };
 };

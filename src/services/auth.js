@@ -5,13 +5,14 @@ import fs from 'node:fs/promises';
 import createHttpError from 'http-errors';
 import { randomBytes } from 'crypto';
 import jwt from 'jsonwebtoken';
-import { SMTP, TEMPLATES_DIR } from '../constants/index.js';
+import { ACCESS_TOKEN_TTL, SMTP, TEMPLATES_DIR } from '../constants/index.js';
 import { env } from '../utils/env.js';
 import { sendEmail } from '../utils/sendMail.js';
 import { UsersCollection } from '../db/models/user.js';
-import { ACCESS_TOKEN_TTL, REFRESH_TOKEN_TTL } from '../constants/index.js';
+import { REFRESH_TOKEN_TTL } from '../constants/index.js';
 import { SessionsCollection } from '../db/models/session.js';
-import { getFullNameFromGoogleTokenPayload, validateCode } from '../utils/googleOAuth2.js';
+import { validateCode, getFullNameFromGoogleTokenPayload  } from '../utils/googleOAuth2.js';
+import { createSession } from '../utils/createSession.js';
 
 // registerUser
 export const registerUser = async (payload) => {
@@ -55,17 +56,17 @@ export const logoutUser = async (sessionId) => {
   await SessionsCollection.deleteOne({ _id: sessionId });
 };
 // createSession
-const createSession = () => {
-  const accessToken = randomBytes(30).toString('base64');
-  const refreshToken = randomBytes(30).toString('base64');
+// const createSession = () => {
+//   const accessToken = randomBytes(30).toString('base64');
+//   const refreshToken = randomBytes(30).toString('base64');
 
-  return {
-    accessToken,
-    refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + ACCESS_TOKEN_TTL),
-    refreshTokenValidUntil: new Date(Date.now() + REFRESH_TOKEN_TTL),
-  };
-};
+//   return {
+//     accessToken,
+//     refreshToken,
+//     accessTokenValidUntil: new Date(Date.now() + ACCESS_TOKEN_TTL),
+//     refreshTokenValidUntil: new Date(Date.now() + REFRESH_TOKEN_TTL),
+//   };
+// };
 // refreshUsersSession
 export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
   const session = await SessionsCollection.findOne({
@@ -164,7 +165,49 @@ export const resetPassword = async (payload) => {
     { password: encryptedPassword },
   );
 };
-// loginOrSignupWithGoogle
+//  export const loginOrRegisterWithGoogle = async (code) => {
+//   const ticket = await validateCode(code);
+
+//   const payload = ticket.getPayload();
+
+
+//   if (typeof payload === 'undefined') {
+//     throw createHttpError(401, 'Unauthorized');
+//   }
+
+//   const user = await UsersCollection.findOne({ email: payload.email });
+
+//   if (user === null) {
+//     const password = await bcrypt.hash(
+//       crypto.randomBytes(30).toString('base64'),
+//       10,
+//     );
+
+//     const createdUser = await UsersCollection.create({
+//       email: payload.email,
+//       name: payload.name,
+//       password,
+//     });
+
+//     return createSession.create({
+//       userId: createdUser._id,
+//       accessToken: crypto.randomBytes(30).toString('base64'),
+//       refreshToken: crypto.generateAuthUrl(30).toString('base64'),
+//       accessTokenValidUntil: new Date(Date.now() + ACCESS_TOKEN_TTL),
+//       refreshTokenValidUntil: new Date(Date.now() + REFRESH_TOKEN_TTL),
+//     });
+//   }
+
+//   await createSession.deleteOne({ userId: user._id });
+
+//   return createSession.create({
+//     userId: user._id,
+//     accessToken: crypto.randomBytes(30).toString('base64'),
+//     refreshToken: crypto.randomBytes(30).toString('base64'),
+//     accessTokenValidUntil: new Date(Date.now() + ACCESS_TOKEN_TTL),
+//     refreshTokenValidUntil: new Date(Date.now() + REFRESH_TOKEN_TTL),
+//   });
+// };
 export const loginOrSignupWithGoogle = async (code) => {
   const loginTicket = await validateCode(code);
   const payload = loginTicket.getPayload();
@@ -177,6 +220,7 @@ export const loginOrSignupWithGoogle = async (code) => {
       email: payload.email,
       name: getFullNameFromGoogleTokenPayload(payload),
       password,
+      role: 'parent',
     });
   }
 
@@ -187,3 +231,4 @@ export const loginOrSignupWithGoogle = async (code) => {
     ...newSession,
   });
 };
+

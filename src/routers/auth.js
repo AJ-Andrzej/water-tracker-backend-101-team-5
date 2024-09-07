@@ -73,9 +73,12 @@ authRouter.post(
   validateBody(resetPasswordSchema),
   ctrlWrapper(resetPasswordController),
 );
+
 authRouter.get('/auth/get-oauth-url', ctrlWrapper(getGoogleOAuthUrlController));
+
 authRouter.post(
   '/auth/confirm-oauth',
+  jsonParser,
   validateBody(loginWithGoogleOAuthSchema),
   ctrlWrapper(loginWithGoogleController),
 );

@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import { requestResetToken } from '../services/auth.js';
+import { loginOrSignupWithGoogle } from '../services/auth.js';
+
 
 import {
   registerUser,
@@ -9,7 +11,6 @@ import {
   refreshUsersSession,
   createProfile,
   resetPassword,
-  loginOrSignupWithGoogle
 } from '../services/auth.js';
 import { REFRESH_TOKEN_TTL } from '../constants/index.js';
 import { UsersCollection } from '../db/models/user.js';
@@ -237,7 +238,31 @@ export const getGoogleOAuthUrlController = async (req, res) => {
     },
   });
 };
-// loginWithGoogleController
+// loginWithGoogle
+
+// export const loginWithGoogleController = async(req, res, next) => {
+//   const { code } = req.body;
+
+//   const session = await AuthService.loginOrRegisterWithGoogle(code);
+
+//   res.cookie('refreshToken', session.refreshToken, {
+//     httpOnly: true,
+//     expires: session.refreshTokenValidUntil,
+//   });
+
+//   res.cookie('sessionId', session._id, {
+//     httpOnly: true,
+//     expires: session.refreshTokenValidUntil,
+//   });
+
+//   res.send({
+//     status: 200,
+//     message: 'Login with Google completed',
+//     data: {
+//       accessToken: session.accessToken,
+//     },
+//   });
+// };
 export const loginWithGoogleController = async (req, res) => {
   const session = await loginOrSignupWithGoogle(req.body.code);
   setupSession(res, session);

@@ -1,10 +1,9 @@
-import createHttpError from 'http-errors';
-
 import { OAuth2Client } from 'google-auth-library';
 import path from 'node:path';
 import { readFile } from 'fs/promises';
 
 import { env } from './env.js';
+import createHttpError from 'http-errors';
 
 const PATH_JSON = path.join(process.cwd(), 'google-oauth.json');
 
@@ -23,23 +22,40 @@ export const generateAuthUrl = () =>
       'https://www.googleapis.com/auth/userinfo.profile',
     ],
   });
-  export const validateCode = async (code) => {
+// export const validateCode = async (code) => {
+//   const response = await googleOAuthClient.getToken(code);
+//   if (!response.tokens.id_token) throw createHttpError(401, 'Unauthorized');
+
+//   const ticket = await googleOAuthClient.verifyIdToken({
+//     idToken: response.tokens.id_token,
+//   });
+//   return ticket;
+// };
+export const validateCode = async (code) => {
+  console.log('Validate code started');
+  try {
     const response = await googleOAuthClient.getToken(code);
+    console.log('Got token response:', response);
     if (!response.tokens.id_token) throw createHttpError(401, 'Unauthorized');
 
     const ticket = await googleOAuthClient.verifyIdToken({
       idToken: response.tokens.id_token,
     });
+    console.log('Verified ID token:', ticket);
     return ticket;
-  };
+  } catch (error) {
+    console.error('Error during validation:', error.message);
+    throw error;
+  }
+};
 
-  export const getFullNameFromGoogleTokenPayload = (payload) => {
-    let fullName = 'User';
-    if (payload.given_name && payload.family_name) {
-      fullName = `${payload.given_name} ${payload.family_name}`;
-    } else if (payload.given_name) {
-      fullName = payload.given_name;
-    }
+export const getFullNameFromGoogleTokenPayload = (payload) => {
+  let fullName = 'User';
+  if (payload.given_name && payload.family_name) {
+    fullName = `${payload.given_name} ${payload.family_name}`;
+  } else if (payload.given_name) {
+    fullName = payload.given_name;
+  }
 
-    return fullName;
-  };
+  return fullName;
+};
