@@ -1,6 +1,4 @@
-# /swagger/paths/auth/login.yaml
 
-post:
   tags:
     - auth
   summary: Login a user
@@ -11,21 +9,33 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../components/schemas.yaml#/schemas/LoginUserRequest'
+          type: object
+          required:
+            - email
+            - password
+          properties:
+            email:
+              type: string
+              format: email
+              example: user@example.com
+            password:
+              type: string
+              format: password
+              example: password123
   responses:
     '200':
       description: Successfully logged in a user
       content:
         application/json:
           schema:
-            $ref: '../../components/schemas.yaml#/schemas/LoginResponse'
+            type: object
+            properties:
+              accessToken:
+                type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     '400':
-      $ref: '../../components/responses.yaml#/responses/IllegalInput'
+      description: Bad Request
     '401':
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '../../components/schemas.yaml#/schemas/ErrorResponse'
+      $ref: '../../components/responses/401.yaml'
     '500':
-      $ref: '../../components/responses.yaml#/responses/GeneralError'
+      description: Internal Server Error

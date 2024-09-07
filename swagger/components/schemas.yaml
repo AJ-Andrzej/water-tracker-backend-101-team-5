@@ -1,5 +1,3 @@
-# /swagger/components/schemas.yaml
-
 schemas:
   RegisterUserRequest:
     type: object
@@ -18,7 +16,7 @@ schemas:
         type: string
         format: password
         example: password123
-        SuccessResponse:
+  SuccessCreated:
           type: object
           properties:
             status:
@@ -83,7 +81,6 @@ schemas:
               type: string
               format: email
               example: john.doe@example.com
-
         ResetPasswordRequest:
           type: object
           required:
@@ -97,7 +94,6 @@ schemas:
               type: string
               format: password
               example: newpassword123
-
   SuccessResponse:
     type: object
     properties:
@@ -107,24 +103,24 @@ schemas:
       message:
         type: string
         example: User profile updated successfully
-        ErrorResponse:
-          type: object
-          properties:
-            status:
-              type: integer
-              example: 401
-            message:
-              type: string
-              example: Unauthorized
-  ErrorResponse:
-    type: object
-    properties:
-      status:
-        type: integer
-        example: 404
-      message:
-        type: string
-        example: Not Found
+        # ErrorResponse:
+        #   type: object
+        #   properties:
+        #     status:
+        #       type: integer
+        #       example: 401
+        #     message:
+        #       type: string
+        #       example: Unauthorized
+ErrorResponse:
+  type: object
+  properties:
+    status:
+      type: integer
+      example: 404
+    message:
+      type: string
+      example: Not Found
 UpdateAvatarRequest:
     type: object
     properties:
@@ -134,7 +130,7 @@ UpdateAvatarRequest:
         description: The avatar image file to upload
     required:
       - avatar
-   AvatarResponse:
+AvatarResponse:
     type: object
     properties:
       status:
@@ -149,15 +145,15 @@ UpdateAvatarRequest:
           avatarUrl:
             type: string
             example: http://example.com/uploads/avatar.jpg
-ErrorResponse:
-    type: object
-    properties:
-      status:
-        type: integer
-        example: 400
-      message:
-        type: string
-        example: Bad Request
+# ErrorResponse:
+#     type: object
+#     properties:
+#       status:
+#         type: integer
+#         example: 400
+#       message:
+#         type: string
+#         example: Bad Request
 UpdateUserRequest:
     type: object
     properties:

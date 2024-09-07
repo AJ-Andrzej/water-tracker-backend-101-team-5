@@ -1,6 +1,3 @@
-# /swagger/paths/auth/google-oauth.yaml
-
-get:
   tags:
     - auth
   summary: Get Google OAuth URL
@@ -18,4 +15,4 @@ get:
                 type: string
                 description: Google OAuth URL
     '500':
-      $ref: '../../components/responses.yaml#/responses/GeneralError'
+      description: Internal Server Error

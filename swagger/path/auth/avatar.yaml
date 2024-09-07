@@ -1,6 +1,3 @@
-# /swagger/paths/auth/avatar.yaml
-
-patch:
   tags:
     - auth
   summary: Update user avatar
@@ -12,19 +9,39 @@ patch:
     content:
       multipart/form-data:
         schema:
-          $ref: '../../components/schemas.yaml#/schemas/UpdateAvatarRequest'
+          type: object
+          properties:
+            avatar:
+              type: string
+              format: binary
+              description: The avatar image file to upload
+          required:
+            - avatar
   responses:
     '200':
       description: Avatar updated successfully
       content:
         application/json:
           schema:
-            $ref: '../../components/schemas.yaml#/schemas/AvatarResponse'
-    '401':
-      $ref: '../../components/responses.yaml#/responses/Unauthorized'
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Avatar updated successfully
+              data:
+                type: object
+                properties:
+                  avatarUrl:
+                    type: string
+                    example: http://example.com/uploads/avatar.jpg
     '400':
-      $ref: '../../components/responses.yaml#/responses/IllegalInput'
+      description: Bad request
+    '401':
+      description: Unauthorized - Invalid session or token
     '404':
-      $ref: '../../components/responses.yaml#/responses/NotFound'
+      description: Not Found
     '500':
-      $ref: '../../components/responses.yaml#/responses/GeneralError'
+      description: Internal Server Error
