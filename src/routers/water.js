@@ -47,7 +47,7 @@ router.delete(
 
 router.get('/water/day', authenticate, ctrlWrapper(getDailyWaterIntake));
 
-router.get(
+router.post(
   '/water/month',
   authenticate,
   jsonParser,

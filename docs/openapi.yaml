@@ -36,7 +36,7 @@ paths:
     get:
       $ref: ../swagger/path/water/get.yaml
   /water/month:
-    get:
+    post:
       $ref: ../swagger/path/water/monthly.yaml
   /auth/register:
     post:
