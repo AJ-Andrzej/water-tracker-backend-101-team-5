@@ -40,6 +40,39 @@ paths:
       $ref: ../swagger/path/water/monthly.yaml
   /auth/register:
     post:
+      $ref: ../swagger/paths/auth/register.yaml
+  /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login.yaml
+  /auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout.yaml
+  /auth/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh.yaml
+  /auth/avatar:
+    patch:
+      $ref: ../swagger/paths/auth/avatar.yaml
+  /auth/user:
+    get:
+      $ref: ../swagger/paths/auth/getUser.yaml
+    patch:
+      $ref: ../swagger/paths/auth/updateUser.yaml
+  /auth/send-reset-email:
+    post:
+      $ref: ../swagger/paths/auth/send-reset-email.yaml
+  /auth/reset-password:
+    post:
+      $ref: ../swagger/paths/auth/reset-pwd.yaml
+  /auth/get-oauth-url:
+    get:
+      $ref: ../swagger/paths/auth/get-google-oauth.yaml
+  /auth/confirm-oauth:
+    post:
+      $ref: ../swagger/paths/auth/confirm-google-oauth.yaml
+
+  /auth/register:
+    post:
       tags:
         - Auth
       summary: Register a new user
@@ -129,6 +162,115 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/GeneralError'
+/auth/send-reset-email:
+    post:
+      tags:
+        - auth
+      summary: Send password reset email
+      operationId: sendResetEmail
+      description: Send a password reset email to the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendResetEmailRequest'
+      responses:
+        '200':
+          description: Reset password email has been successfully sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          $ref: '#/components/responses/GeneralError'
+  /auth/reset-pwd:
+    post:
+      tags:
+        - auth
+      summary: Reset password
+      operationId: resetPassword
+      description: Reset the password of the user using the provided token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Password has been successfully reset
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Token is expired or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          $ref: '#/components/responses/GeneralError'
+  /auth/get-google-oauth-url:
+    get:
+      tags:
+        - auth
+      summary: Get Google OAuth URL
+      operationId: getGoogleOAuthUrl
+      description: Retrieve the Google OAuth URL for authentication
+      responses:
+        '200':
+          description: Successfully retrieved Google OAuth URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: Google OAuth URL
+        '500':
+          $ref: '#/components/responses/GeneralError'
+
+  /auth/confirm-google-oauth-url:
+    post:
+      tags:
+        - auth
+      summary: Confirm Google OAuth
+      operationId: confirmGoogleOAuth
+      description: Confirm Google OAuth authentication and login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginWithGoogleOAuthSchema'
+      responses:
+        '200':
+          description: Successfully logged in via Google OAuth
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '500':
@@ -253,6 +395,14 @@ components:
           type: string
           format: password
           example: password123
+    LoginWithGoogleOAuthSchema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: string
+                description: Google OAuth code
 
     UserResponse:
       type: object
@@ -284,7 +434,15 @@ components:
         accessToken:
           type: string
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-
+    SendResetEmailRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          example: john.doe@example.com
     SuccessResponse:
       type: object
       properties:
@@ -294,7 +452,19 @@ components:
         message:
           type: string
           example: User profile updated successfully
-
+    ResetPasswordRequest:
+      type: object
+      required:
+        - token
+        - password
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        password:
+          type: string
+          format: password
+          example: newpassword123
     ErrorResponse:
       type: object
       properties:
@@ -380,6 +550,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+              description: Bad Request
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Unauthorized
       content:
