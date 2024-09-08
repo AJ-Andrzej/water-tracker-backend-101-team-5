@@ -75,67 +75,44 @@ components:
     User:
       type: object
       properties:
+        id:
+          type: string
         userName:
           type: string
-          example: 'User'
-        dailyNorma:
-          type: number
-          example: 1500
         email:
           type: string
-          example: 'user@example.com'
+        dailyNorma:
+          type: number
         gender:
           type: string
-          enum: ['Man', 'Woman']
         photo:
           type: string
-          example: 'http://example.com/photo.jpg'
     Water:
       type: object
       properties:
         _id:
-          description: 'Water id'
           type: string
-          example: 66c4b8bd4719066469ce2d02
         userId:
-          description: "User's id"
           type: string
-          example: 66c4b8bd4719066469ce2d02
         amount:
-          description: 'Amount of water'
           type: number
-          example: 1500
         time:
-          description: 'Time of add water'
           type: string
-          example: '11:35'
         date:
-          description: 'Date of add water'
           type: string
-          example: '2024-09-01'
     monthlyWater:
       type: object
       properties:
         date:
-          description: 'Date'
           type: string
-          example: '2, September'
         totalAmount:
-          description: 'Total amount of water intake per day (ml)'
           type: number
-          example: 1200
         servings:
-          description: 'Total amount of servings water per day'
           type: number
-          example: 5
         dailyNorma:
-          description: 'Daily water intake norma selected by the user'
           type: number
-          example: 1500
         fullfilment:
-          description: 'Percentage of daily water'
           type: number
-          example: 50
   securitySchemes:
     bearerAuth:
       type: http
