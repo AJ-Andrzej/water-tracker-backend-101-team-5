@@ -1,6 +1,3 @@
-# /swagger/paths/auth/logout.yaml
-
-post:
   tags:
     - auth
   summary: Logout a user
@@ -10,12 +7,8 @@ post:
     '204':
       description: Successfully logged out
     '400':
-      $ref: '../../components/responses.yaml#/responses/IllegalInput'
+      description: Bad Request
     '404':
-      description: Session not found
-      content:
-        application/json:
-          schema:
-            $ref: '../../components/schemas.yaml#/schemas/ErrorResponse'
+      $ref: ..\..\components\responses\404.yaml
     '500':
-      $ref: '../../components/responses.yaml#/responses/GeneralError'
+      description: Internal Server Error

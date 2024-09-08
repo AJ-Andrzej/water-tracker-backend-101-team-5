@@ -408,7 +408,7 @@
       }
     },
     "/water/month": {
-      "get": {
+      "post": {
         "tags": [
           "Water"
         ],
@@ -538,11 +538,11 @@
     "/auth/register": {
       "post": {
         "tags": [
-          "Auth"
+          "auth"
         ],
         "summary": "Register a new user",
         "operationId": "registerUser",
-        "description": "Register a new user with the provided credentials.",
+        "description": "Register a new user with the provided details.",
         "requestBody": {
           "required": true,
           "content": {
@@ -559,16 +559,19 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/UserResponse"
                 }
               }
             }
           },
           "400": {
-            "$ref": "#/components/responses/IllegalInput"
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
           },
           "500": {
-            "$ref": "#/components/responses/GeneralError"
+            "description": "Internal Server Error"
           }
         }
       }
@@ -576,7 +579,7 @@
     "/auth/login": {
       "post": {
         "tags": [
-          "Auth"
+          "auth"
         ],
         "summary": "Login a user",
         "operationId": "loginUser",
@@ -586,7 +589,23 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginUserRequest"
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "password123"
+                  }
+                }
               }
             }
           }
@@ -597,26 +616,25 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
                 }
               }
             }
           },
           "400": {
-            "$ref": "#/components/responses/IllegalInput"
+            "description": "Bad Request"
           },
           "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/401"
           },
           "500": {
-            "$ref": "#/components/responses/GeneralError"
+            "description": "Internal Server Error"
           }
         }
       }
@@ -624,7 +642,7 @@
     "/auth/logout": {
       "post": {
         "tags": [
-          "Auth"
+          "auth"
         ],
         "summary": "Logout a user",
         "operationId": "logoutUser",
@@ -634,20 +652,13 @@
             "description": "Successfully logged out"
           },
           "400": {
-            "$ref": "#/components/responses/IllegalInput"
+            "description": "Bad Request"
           },
           "404": {
-            "description": "Session not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           },
           "500": {
-            "$ref": "#/components/responses/GeneralError"
+            "description": "Internal Server Error"
           }
         }
       }
@@ -655,35 +666,49 @@
     "/auth/refresh": {
       "post": {
         "tags": [
-          "Auth"
+          "auth"
         ],
         "summary": "Refresh user session",
         "operationId": "refreshUserSession",
         "description": "Refresh the session of the currently authenticated user.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successfully refreshed the session",
+            "description": "Successfully refreshed a session",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
                 }
               }
             }
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "401": {
-            "$ref": "#/components/responses/Unauthorized"
+            "$ref": "#/components/responses/401"
           },
           "500": {
-            "$ref": "#/components/responses/GeneralError"
+            "description": "Internal Server Error"
           }
         }
       }
     },
-    "/users/avatar": {
+    "/auth/avatar": {
       "patch": {
         "tags": [
-          "Users"
+          "auth"
         ],
         "summary": "Update user avatar",
         "operationId": "updateAvatar",
@@ -697,7 +722,17 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateAvatarRequest"
+                "type": "object",
+                "properties": {
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The avatar image file to upload"
+                  }
+                },
+                "required": [
+                  "avatar"
+                ]
               }
             }
           }
@@ -708,30 +743,49 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AvatarResponse"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Avatar updated successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "avatarUrl": {
+                          "type": "string",
+                          "example": "http://example.com/uploads/avatar.jpg"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
           },
           "400": {
-            "$ref": "#/components/responses/IllegalInput"
+            "description": "Bad request"
           },
           "401": {
-            "$ref": "#/components/responses/Unauthorized"
+            "description": "Unauthorized - Invalid session or token"
           },
           "404": {
-            "$ref": "#/components/responses/NotFound"
+            "description": "Not Found"
           },
           "500": {
-            "$ref": "#/components/responses/GeneralError"
+            "description": "Internal Server Error"
           }
         }
       }
     },
-    "/users/profile": {
+    "/auth/user": {
       "get": {
         "tags": [
-          "Users"
+          "auth"
         ],
         "summary": "Get user",
         "operationId": "getUser",
@@ -747,48 +801,116 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "60d0fe4f5311236168a109ca"
+                    },
+                    "userName": {
+                      "type": "string",
+                      "example": "User"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "example": "user@example.com"
+                    },
+                    "dailyNorma": {
+                      "type": "number",
+                      "example": 2000
+                    },
+                    "gender": {
+                      "type": "string",
+                      "enum": [
+                        "Man",
+                        "Woman"
+                      ],
+                      "example": "Man"
+                    },
+                    "photo": {
+                      "type": "string",
+                      "example": "http://example.com/photo.jpg"
+                    }
+                  }
                 }
               }
             }
           },
           "401": {
-            "$ref": "#/components/responses/Unauthorized"
+            "$ref": "#/components/responses/401"
           },
           "404": {
-            "$ref": "#/components/responses/NotFound"
+            "$ref": "#/components/responses/404"
           },
           "500": {
-            "$ref": "#/components/responses/GeneralError"
+            "description": "Internal Server"
           }
         }
-      }
-    },
-    "/users/update": {
+      },
       "patch": {
         "tags": [
-          "Users"
+          "auth"
         ],
-        "summary": "Update user profile",
+        "summary": "Update user",
         "operationId": "updateUser",
-        "description": "Update the profile information of the currently authenticated user.",
+        "description": "Update the user information of the currently authenticated user.",
         "security": [
           {
             "bearerAuth": []
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserRequest"
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "newUser@example.com"
+                  },
+                  "currentPassword": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "oldPassword123"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "newPassword123"
+                  },
+                  "confirmPassword": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "newPassword123"
+                  },
+                  "userName": {
+                    "type": "string",
+                    "example": "User"
+                  },
+                  "dailyNorma": {
+                    "type": "number",
+                    "example": 2000
+                  },
+                  "gender": {
+                    "type": "string",
+                    "enum": [
+                      "Man",
+                      "Woman"
+                    ],
+                    "example": "Man"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "User profile updated successfully",
+            "description": "User updated successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -798,16 +920,248 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/IllegalInput"
+            "description": "Bad request"
           },
           "401": {
-            "$ref": "#/components/responses/Unauthorized"
+            "$ref": "#/components/responses/401"
           },
           "404": {
-            "$ref": "#/components/responses/NotFound"
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/auth/send-reset-email": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Reset password",
+        "operationId": "resetPassword",
+        "description": "Reset the password of the user using the provided token.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password has been successfully reset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Password has been successfully reset"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User not found"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "$ref": "#/components/responses/GeneralError"
+            "description": "Not Implemented",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Not Implemented"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Reset password",
+        "operationId": "resetUserPassword",
+        "description": "Reset the password of the user using the provided token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "token",
+                  "password"
+                ],
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "newpassword123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password has been successfully reset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/get-oauth-url": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Get Google OAuth URL",
+        "operationId": "getGoogleOAuthUrl",
+        "description": "Retrieve the Google OAuth URL for authentication",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Google OAuth URL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "description": "Google OAuth URL"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/confirm-oauth": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Confirm Google OAuth",
+        "operationId": "confirmGoogleOAuth",
+        "description": "Confirm Google OAuth authentication and login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "code"
+                ],
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "Google OAuth code"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully logged in via Google OAuth",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -821,7 +1175,90 @@
         "bearerFormat": "JWT"
       }
     },
+    "responses": {
+      "401": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Something went wrong",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "schemas": {
+      "monthlyWater": {
+        "type": "object",
+        "required": [
+          "date",
+          "totalAmount",
+          "servings",
+          "dailyNorma",
+          "fullfilment"
+        ],
+        "properties": {
+          "date": {
+            "description": "Date",
+            "type": "string",
+            "example": "2, September"
+          },
+          "totalAmount": {
+            "description": "Total amount of water intake per day (ml)",
+            "type": "number",
+            "example": 1200
+          },
+          "servings": {
+            "description": "Total amount of servings water per day",
+            "type": "number",
+            "example": 5
+          },
+          "dailyNorma": {
+            "description": "Daily water intake norma selected by the user",
+            "type": "number",
+            "example": 1500
+          },
+          "fullfilment": {
+            "description": "Percentage of daily water",
+            "type": "number",
+            "example": 50
+          }
+        }
+      },
       "RegisterUserRequest": {
         "type": "object",
         "required": [
@@ -829,25 +1266,10 @@
           "password"
         ],
         "properties": {
-          "email": {
+          "userName": {
             "type": "string",
-            "format": "email",
-            "example": "user@example.com"
+            "example": "User"
           },
-          "password": {
-            "type": "string",
-            "format": "password",
-            "example": "password123"
-          }
-        }
-      },
-      "LoginUserRequest": {
-        "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
-        "properties": {
           "email": {
             "type": "string",
             "format": "email",
@@ -894,15 +1316,6 @@
           }
         }
       },
-      "LoginResponse": {
-        "type": "object",
-        "properties": {
-          "accessToken": {
-            "type": "string",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-          }
-        }
-      },
       "SuccessResponse": {
         "type": "object",
         "properties": {
@@ -913,198 +1326,6 @@
           "message": {
             "type": "string",
             "example": "User profile updated successfully"
-          }
-        }
-      },
-      "ErrorResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "integer",
-            "example": 404
-          },
-          "message": {
-            "type": "string",
-            "example": "Not Found"
-          }
-        }
-      },
-      "UpdateAvatarRequest": {
-        "type": "object",
-        "properties": {
-          "avatar": {
-            "type": "string",
-            "format": "binary",
-            "description": "The avatar image file to upload"
-          }
-        },
-        "required": [
-          "avatar"
-        ]
-      },
-      "AvatarResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "integer",
-            "example": 200
-          },
-          "message": {
-            "type": "string",
-            "example": "Avatar updated successfully"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "avatarUrl": {
-                "type": "string",
-                "example": "http://example.com/uploads/avatar.jpg"
-              }
-            }
-          }
-        }
-      },
-      "UpdateUserRequest": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "format": "email",
-            "example": "newemail@example.com"
-          },
-          "currentPassword": {
-            "type": "string",
-            "format": "password",
-            "example": "oldPassword123"
-          },
-          "newPassword": {
-            "type": "string",
-            "format": "password",
-            "example": "newPassword123"
-          },
-          "confirmPassword": {
-            "type": "string",
-            "format": "password",
-            "example": "newPassword123"
-          },
-          "userName": {
-            "type": "string",
-            "example": "New User Name"
-          },
-          "dailyNorma": {
-            "type": "number",
-            "example": 2000
-          },
-          "gender": {
-            "type": "string",
-            "enum": [
-              "Man",
-              "Woman"
-            ],
-            "example": "Man"
-          }
-        }
-      },
-      "monthlyWater": {
-        "type": "object",
-        "required": [
-          "date",
-          "totalAmount",
-          "servings",
-          "dailyNorma",
-          "fullfilment"
-        ],
-        "properties": {
-          "date": {
-            "description": "Date",
-            "type": "string",
-            "example": "2, September"
-          },
-          "totalAmount": {
-            "description": "Total amount of water intake per day (ml)",
-            "type": "number",
-            "example": 1200
-          },
-          "servings": {
-            "description": "Total amount of servings water per day",
-            "type": "number",
-            "example": 5
-          },
-          "dailyNorma": {
-            "description": "Daily water intake norma selected by the user",
-            "type": "number",
-            "example": 1500
-          },
-          "fullfilment": {
-            "description": "Percentage of daily water",
-            "type": "number",
-            "example": 50
-          }
-        }
-      }
-    },
-    "responses": {
-      "404": {
-        "description": "Something went wrong",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "status",
-                "message"
-              ],
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Something went wrong"
-                }
-              }
-            }
-          }
-        }
-      },
-      "NotFound": {
-        "description": "Entity not found.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ErrorResponse"
-            }
-          }
-        }
-      },
-      "IllegalInput": {
-        "description": "Illegal input for operation.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ErrorResponse"
-            }
-          }
-        }
-      },
-      "GeneralError": {
-        "description": "Internal Server Error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ErrorResponse"
-            }
-          }
-        }
-      },
-      "Unauthorized": {
-        "description": "Unauthorized",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ErrorResponse"
-            }
           }
         }
       }

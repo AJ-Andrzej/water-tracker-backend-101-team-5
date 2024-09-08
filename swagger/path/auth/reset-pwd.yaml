@@ -1,17 +1,25 @@
-# /swagger/paths/auth/reset-pwd.yaml
-
-post:
   tags:
     - auth
   summary: Reset password
-  operationId: resetPassword
+  operationId: resetUserPassword
   description: Reset the password of the user using the provided token.
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: '../../components/schemas.yaml#/schemas/ResetPasswordRequest'
+          type: object
+          required:
+            - token
+            - password
+          properties:
+            token:
+              type: string
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+            password:
+              type: string
+              format: password
+              example: newpassword123
   responses:
     '200':
       description: Password has been successfully reset
@@ -20,16 +28,8 @@ post:
           schema:
             $ref: '../../components/schemas.yaml#/schemas/SuccessResponse'
     '401':
-      description: Token is expired or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '../../components/schemas.yaml#/schemas/ErrorResponse'
+      $ref: '../../components/responses/401.yaml'
     '404':
-      description: User not found
-      content:
-        application/json:
-          schema:
-            $ref: '../../components/schemas.yaml#/schemas/ErrorResponse'
+      $ref: '../../components/responses/404.yaml'
     '500':
-      $ref: '../../components/responses.yaml#/responses/GeneralError'
+      description: Internal Server Error

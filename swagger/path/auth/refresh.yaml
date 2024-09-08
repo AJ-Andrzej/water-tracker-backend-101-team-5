@@ -1,25 +1,24 @@
-# /swagger/paths/auth/refresh.yaml
-
-post:
   tags:
     - auth
   summary: Refresh user session
   operationId: refreshUserSession
   description: Refresh the session of the currently authenticated user.
+  security:
+    - bearerAuth: []
   responses:
     '200':
       description: Successfully refreshed a session
       content:
         application/json:
           schema:
-            $ref: '../../components/schemas.yaml#/schemas/LoginResponse'
+            type: object
+            properties:
+              accessToken:
+                type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     '400':
-      $ref: '../../components/responses.yaml#/responses/IllegalInput'
+      description: Bad Request
     '401':
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '../../components/schemas.yaml#/schemas/ErrorResponse'
+      $ref: '../../components/responses/401.yaml'
     '500':
-      $ref: '../../components/responses.yaml#/responses/GeneralError'
+      description: Internal Server Error
