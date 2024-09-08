@@ -13,6 +13,7 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 const whitelist = [
   'https://water-tracker-101-team-5.vercel.app',
   'http://127.0.0.1:5173',
+  'https://water-tracker-backend-101-team-5.onrender.com',
 ];
 
 const corsOptions = {
