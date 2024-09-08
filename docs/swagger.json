@@ -705,7 +705,7 @@
         }
       }
     },
-    "/auth/avatar": {
+    "/users/avatar": {
       "patch": {
         "tags": [
           "Users"
@@ -782,7 +782,7 @@
         }
       }
     },
-    "/auth/user": {
+    "/users/profile": {
       "get": {
         "tags": [
           "Users"
@@ -847,7 +847,9 @@
             "description": "Internal Server"
           }
         }
-      },
+      }
+    },
+    "/users/update": {
       "patch": {
         "tags": [
           "Users"

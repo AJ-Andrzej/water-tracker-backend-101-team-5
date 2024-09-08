@@ -50,12 +50,13 @@ paths:
   /auth/refresh:
     post:
       $ref: '../swagger/path/auth/refresh.yaml'
-  /auth/avatar:
+  /users/avatar:
     patch:
       $ref: '../swagger/path/auth/avatar.yaml'
-  /auth/user:
+  /users/profile:
     get:
       $ref: '../swagger/path/auth/getUser.yaml'
+  /users/update:
     patch:
       $ref: '../swagger/path/auth/updateUser.yaml'
   /auth/send-reset-email:
@@ -70,11 +71,11 @@ paths:
   /auth/confirm-oauth:
     post:
       $ref: '../swagger/path/auth/confirm-google-oauth.yaml'
-#   
+#
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-#   
+#
