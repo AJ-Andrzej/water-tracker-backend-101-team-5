@@ -71,48 +71,6 @@ paths:
     patch:
       $ref: '../swagger/path/users/updateProfile.yaml'
 components:
-  schemas:
-    User:
-      type: object
-      properties:
-        id:
-          type: string
-        userName:
-          type: string
-        email:
-          type: string
-        dailyNorma:
-          type: number
-        gender:
-          type: string
-        photo:
-          type: string
-    Water:
-      type: object
-      properties:
-        _id:
-          type: string
-        userId:
-          type: string
-        amount:
-          type: number
-        time:
-          type: string
-        date:
-          type: string
-    monthlyWater:
-      type: object
-      properties:
-        date:
-          type: string
-        totalAmount:
-          type: number
-        servings:
-          type: number
-        dailyNorma:
-          type: number
-        fullfilment:
-          type: number
   securitySchemes:
     bearerAuth:
       type: http

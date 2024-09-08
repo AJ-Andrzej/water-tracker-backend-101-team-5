@@ -1,6 +1,6 @@
 tags:
   - Users
-summary: Update user PROFILE
+summary: Update user profile
 operationId: updateUser
 description: Update the user information of the currently authenticated user.
 security:
@@ -9,7 +9,7 @@ requestBody:
   required: true
   content:
     application/json:
-      schema:
+      schemas:
         type: object
         properties:
           email:
@@ -44,7 +44,20 @@ responses:
     content:
       application/json:
         schema:
-          $ref: '../../components/schemas.yaml#/schemas/UserResponse'
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully updated the contact!
+            data:
+              $ref: '../../components/schemas/user.yaml'
   '401':
     $ref: '../../components/responses/401.yaml'
   '404':

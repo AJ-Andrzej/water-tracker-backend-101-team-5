@@ -30,6 +30,6 @@ responses:
     description: Bad request
   '401':
     description: Unauthorized - Invalid code or OAuth error
-    $ref: ../../components/responses/401.yaml
+    $ref: "../../components/responses/401.yaml"
   '404':
-    $ref: ../../components/responses/404.yaml
+    $ref: "../../components/responses/404.yaml"
