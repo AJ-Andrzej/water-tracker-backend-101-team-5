@@ -6,7 +6,6 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-
 servers:
   - url: https://water-tracker-backend-101-team-5.onrender.com
   - url: http://localhost:8080
@@ -52,13 +51,13 @@ paths:
       $ref: '../swagger/path/auth/refresh.yaml'
   /users/avatar:
     patch:
-      $ref: '../swagger/path/auth/avatar.yaml'
+      $ref: '../swagger/path/users/avatar.yaml'
   /users/profile:
     get:
-      $ref: '../swagger/path/auth/getUser.yaml'
+      $ref: '../swagger/path/users/getProfile.yaml'
   /users/update:
     patch:
-      $ref: '../swagger/path/auth/updateUser.yaml'
+      $ref: '../swagger/path/users/updateProfile.yaml'
   /auth/send-reset-email:
     post:
       $ref: '../swagger/path/auth/send-reset-email.yaml'
@@ -79,3 +78,4 @@ components:
       scheme: bearer
       bearerFormat: JWT
 #
+

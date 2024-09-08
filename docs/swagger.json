@@ -42,9 +42,9 @@
         "tags": [
           "Water"
         ],
-        "summary": "Delete a water intakes",
-        "operationId": "delateWater",
-        "description": "Delete a water intakes",
+        "summary": "Delete a water intake",
+        "operationId": "deleteWaterIntake",
+        "description": "Delete a water intake",
         "security": [
           {
             "bearerAuth": []
@@ -63,7 +63,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Delete a water intakes",
+            "description": "Water intake deleted successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -79,7 +79,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully deleted water intakes"
+                      "example": "Water intake deleted successfully"
                     }
                   }
                 }
@@ -543,35 +543,46 @@
         "summary": "Register a new user",
         "operationId": "registerUser",
         "description": "Register a new user with the provided details.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterUserRequest"
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "password123"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Successfully registered a user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
-                }
-              }
-            }
+            "description": "../../components/responses/201.yaml"
           },
           "400": {
             "description": "Bad Request"
           },
           "409": {
             "description": "Conflict"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
@@ -631,10 +642,9 @@
             "description": "Bad Request"
           },
           "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "500": {
-            "description": "Internal Server Error"
+            "404": null,
+            "$ref": "#/components/responses/401",
+            "description": "User not found"
           }
         }
       }
@@ -647,6 +657,11 @@
         "summary": "Logout a user",
         "operationId": "logoutUser",
         "description": "Logout the currently authenticated user.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "204": {
             "description": "Successfully logged out"
@@ -656,9 +671,6 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
@@ -698,9 +710,6 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
@@ -773,11 +782,8 @@
           "401": {
             "description": "Unauthorized - Invalid session or token"
           },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "409": {
+            "description": "Bad Request"
           }
         }
       }
@@ -787,7 +793,7 @@
         "tags": [
           "Users"
         ],
-        "summary": "Get user",
+        "summary": "Get user profile",
         "operationId": "getUser",
         "description": "Retrieve the user information of the currently authenticated user.",
         "security": [
@@ -844,7 +850,7 @@
             "$ref": "#/components/responses/404"
           },
           "500": {
-            "description": "Internal Server"
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -854,7 +860,7 @@
         "tags": [
           "Users"
         ],
-        "summary": "Update user",
+        "summary": "Update user profile",
         "operationId": "updateUser",
         "description": "Update the user information of the currently authenticated user.",
         "security": [
@@ -866,7 +872,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
+              "schemas": {
                 "type": "object",
                 "properties": {
                   "email": {
@@ -916,19 +922,37 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully updated the contact!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/user"
+                    }
+                  }
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request"
           },
           "401": {
             "$ref": "#/components/responses/401"
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -940,12 +964,28 @@
         ],
         "summary": "Reset password",
         "operationId": "resetPassword",
-        "description": "Reset the password of the user using the provided token.",
-        "security": [
-          {
-            "bearerAuth": []
+        "description": "Reset the password of the user.",
+        "requestBody": {
+          "description": "User email for password reset",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@example.com"
+                  }
+                }
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Password has been successfully reset",
@@ -971,8 +1011,8 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/401"
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
             "description": "User not found",
@@ -1033,7 +1073,13 @@
         "summary": "Reset password",
         "operationId": "resetUserPassword",
         "description": "Reset the password of the user using the provided token.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
+          "description": "Reset password details",
           "required": true,
           "content": {
             "application/json": {
@@ -1048,7 +1094,7 @@
                     "type": "string",
                     "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                   },
-                  "password": {
+                  "newPassword": {
                     "type": "string",
                     "format": "password",
                     "example": "newpassword123"
@@ -1060,23 +1106,16 @@
         },
         "responses": {
           "200": {
-            "description": "Password has been successfully reset",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
-                }
-              }
-            }
+            "description": "Password has been successfully reset"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "$ref": "#/components/responses/401"
           },
           "404": {
             "$ref": "#/components/responses/404"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
@@ -1089,9 +1128,29 @@
         "summary": "Get Google OAuth URL",
         "operationId": "getGoogleOAuthUrl",
         "description": "Retrieve the Google OAuth URL for authentication",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@example.com"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Successfully retrieved Google OAuth URL",
+            "description": "Successfully get Google OAuth url!",
             "content": {
               "application/json": {
                 "schema": {
@@ -1106,8 +1165,8 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error"
+          "400": {
+            "description": "Bad request"
           }
         }
       }
@@ -1160,10 +1219,11 @@
             "description": "Bad request"
           },
           "401": {
+            "description": "Unauthorized - Invalid code or OAuth error",
             "$ref": "#/components/responses/401"
           },
-          "500": {
-            "description": "Internal Server Error"
+          "404": {
+            "$ref": "#/components/responses/404"
           }
         }
       }
@@ -1179,11 +1239,16 @@
     },
     "responses": {
       "401": {
-        "description": "Unauthorized",
+        "description": "Unauthorized error",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1191,7 +1256,19 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Unauthorized"
+                  "example": "UnauthorizedError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Access token expired"
+                    }
+                  }
                 }
               }
             }
@@ -1216,6 +1293,43 @@
                 "message": {
                   "type": "string",
                   "example": "Something went wrong"
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Server Error"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    }
+                  }
                 }
               }
             }
@@ -1261,74 +1375,33 @@
           }
         }
       },
-      "RegisterUserRequest": {
+      "user": {
         "type": "object",
-        "required": [
-          "email",
-          "password"
+        "required": "-email - password",
+        "properties": {
+          "userName": {
+            "type": "string"
+          },
+          "example": "User"
+        },
+        "dailyNorma": {
+          "type": "number",
+          "example": 1500
+        },
+        "email": {
+          "type": "string;",
+          "example": "user@example.com"
+        },
+        "gender": {
+          "type": "string;"
+        },
+        "enum": [
+          "Man",
+          "Woman"
         ],
-        "properties": {
-          "userName": {
-            "type": "string",
-            "example": "User"
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "example": "user@example.com"
-          },
-          "password": {
-            "type": "string",
-            "format": "password",
-            "example": "password123"
-          }
-        }
-      },
-      "UserResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "60d0fe4f5311236168a109ca"
-          },
-          "userName": {
-            "type": "string",
-            "example": "User"
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "example": "user@example.com"
-          },
-          "dailyNorma": {
-            "type": "number",
-            "example": 2000
-          },
-          "gender": {
-            "type": "string",
-            "enum": [
-              "Man",
-              "Woman"
-            ],
-            "example": "Man"
-          },
-          "photo": {
-            "type": "string",
-            "example": "http://example.com/photo.jpg"
-          }
-        }
-      },
-      "SuccessResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "integer",
-            "example": 200
-          },
-          "message": {
-            "type": "string",
-            "example": "User profile updated successfully"
-          }
+        "photo": {
+          "type": "string;",
+          "example": "http://example.com/photo.jpg"
         }
       }
     }
