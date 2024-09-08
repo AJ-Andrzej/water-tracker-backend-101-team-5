@@ -60,7 +60,7 @@ paths:
       $ref: '../swagger/path/auth/get-google-oauth.yaml'
   /auth/confirm-oauth:
     post:
-      $ref: '../swagger/path/auth/confirm-google-oauth.yaml' 
+      $ref: '../swagger/path/auth/confirm-google-oauth.yaml'
   /users/avatar:
     patch:
       $ref: '../swagger/path/users/avatar.yaml'
@@ -71,17 +71,9 @@ paths:
     patch:
       $ref: '../swagger/path/users/updateProfile.yaml'
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
   schemas:
     User:
       type: object
-      required:
-        - email
-        - password
       properties:
         userName:
           type: string
@@ -100,12 +92,6 @@ components:
           example: 'http://example.com/photo.jpg'
     Water:
       type: object
-      required:
-        - _id
-        - userId
-        - amount
-        - time
-        - date
       properties:
         _id:
           description: 'Water id'
@@ -129,12 +115,6 @@ components:
           example: '2024-09-01'
     monthlyWater:
       type: object
-      required:
-        - date
-        - totalAmount
-        - servings
-        - dailyNorma
-        - fullfilment
       properties:
         date:
           description: 'Date'
@@ -156,7 +136,8 @@ components:
           description: 'Percentage of daily water'
           type: number
           example: 50
-responses:
-            $ref: '../swagger/components/responses.yaml'
-        
-  
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
