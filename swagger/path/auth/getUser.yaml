@@ -1,5 +1,5 @@
 tags:
-  - auth
+  - Users
 summary: Get user
 operationId: getUser
 description: Retrieve the user information of the currently authenticated user.
@@ -38,4 +38,4 @@ responses:
   '404':
     $ref: '../../components/responses/404.yaml'
   '500':
-    description: Internal Server 
+    description: Internal Server

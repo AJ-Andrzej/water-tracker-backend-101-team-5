@@ -1,24 +1,24 @@
-  tags:
-    - auth
-  summary: Register a new user
-  operationId: registerUser
-  description: Register a new user with the provided details.
-  requestBody:
-    required: true
+tags:
+  - Auth
+summary: Register a new user
+operationId: registerUser
+description: Register a new user with the provided details.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '../../components/schemas.yaml#/schemas/RegisterUserRequest'
+responses:
+  '201':
+    description: Successfully registered a user
     content:
       application/json:
         schema:
-          $ref: '../../components/schemas.yaml#/schemas/RegisterUserRequest'
-  responses:
-    '201':
-      description: Successfully registered a user
-      content:
-        application/json:
-          schema:
-            $ref: '../../components/schemas.yaml#/schemas/UserResponse'
-    '400':
-      description: Bad Request
-    '409':
-      description: Conflict
-    '500':
-      description: Internal Server Error
+          $ref: '../../components/schemas.yaml#/schemas/UserResponse'
+  '400':
+    description: Bad Request
+  '409':
+    description: Conflict
+  '500':
+    description: Internal Server Error

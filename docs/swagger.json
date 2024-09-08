@@ -538,7 +538,7 @@
     "/auth/register": {
       "post": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Register a new user",
         "operationId": "registerUser",
@@ -579,7 +579,7 @@
     "/auth/login": {
       "post": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Login a user",
         "operationId": "loginUser",
@@ -642,7 +642,7 @@
     "/auth/logout": {
       "post": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Logout a user",
         "operationId": "logoutUser",
@@ -666,7 +666,7 @@
     "/auth/refresh": {
       "post": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Refresh user session",
         "operationId": "refreshUserSession",
@@ -708,7 +708,7 @@
     "/auth/avatar": {
       "patch": {
         "tags": [
-          "auth"
+          "Users"
         ],
         "summary": "Update user avatar",
         "operationId": "updateAvatar",
@@ -785,7 +785,7 @@
     "/auth/user": {
       "get": {
         "tags": [
-          "auth"
+          "Users"
         ],
         "summary": "Get user",
         "operationId": "getUser",
@@ -850,7 +850,7 @@
       },
       "patch": {
         "tags": [
-          "auth"
+          "Users"
         ],
         "summary": "Update user",
         "operationId": "updateUser",
@@ -934,7 +934,7 @@
     "/auth/send-reset-email": {
       "post": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Reset password",
         "operationId": "resetPassword",
@@ -1026,7 +1026,7 @@
     "/auth/reset-password": {
       "post": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Reset password",
         "operationId": "resetUserPassword",
@@ -1082,7 +1082,7 @@
     "/auth/get-oauth-url": {
       "get": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Get Google OAuth URL",
         "operationId": "getGoogleOAuthUrl",
@@ -1113,7 +1113,7 @@
     "/auth/confirm-oauth": {
       "post": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "summary": "Confirm Google OAuth",
         "operationId": "confirmGoogleOAuth",

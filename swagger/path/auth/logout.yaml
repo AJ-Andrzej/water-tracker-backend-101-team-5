@@ -1,14 +1,14 @@
-  tags:
-    - auth
-  summary: Logout a user
-  operationId: logoutUser
-  description: Logout the currently authenticated user.
-  responses:
-    '204':
-      description: Successfully logged out
-    '400':
-      description: Bad Request
-    '404':
-      $ref: ..\..\components\responses\404.yaml
-    '500':
-      description: Internal Server Error
+tags:
+  - Auth
+summary: Logout a user
+operationId: logoutUser
+description: Logout the currently authenticated user.
+responses:
+  '204':
+    description: Successfully logged out
+  '400':
+    description: Bad Request
+  '404':
+    $ref: ..\..\components\responses\404.yaml
+  '500':
+    description: Internal Server Error
