@@ -239,30 +239,6 @@ export const getGoogleOAuthUrlController = async (req, res) => {
   });
 };
 // loginWithGoogle
-
-// export const loginWithGoogleController = async(req, res, next) => {
-//   const { code } = req.body;
-
-//   const session = await AuthService.loginOrRegisterWithGoogle(code);
-
-//   res.cookie('refreshToken', session.refreshToken, {
-//     httpOnly: true,
-//     expires: session.refreshTokenValidUntil,
-//   });
-
-//   res.cookie('sessionId', session._id, {
-//     httpOnly: true,
-//     expires: session.refreshTokenValidUntil,
-//   });
-
-//   res.send({
-//     status: 200,
-//     message: 'Login with Google completed',
-//     data: {
-//       accessToken: session.accessToken,
-//     },
-//   });
-// };
 export const loginWithGoogleController = async (req, res) => {
   const session = await loginOrSignupWithGoogle(req.body.code);
   setupSession(res, session);

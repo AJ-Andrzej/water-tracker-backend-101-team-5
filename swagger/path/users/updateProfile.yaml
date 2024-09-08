@@ -1,6 +1,6 @@
 tags:
   - Users
-summary: Update user
+summary: Update user PROFILE
 operationId: updateUser
 description: Update the user information of the currently authenticated user.
 security:
@@ -45,9 +45,9 @@ responses:
       application/json:
         schema:
           $ref: '../../components/schemas.yaml#/schemas/UserResponse'
-  '400':
-    description: Bad request
   '401':
     $ref: '../../components/responses/401.yaml'
   '404':
     $ref: '../../components/responses/404.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

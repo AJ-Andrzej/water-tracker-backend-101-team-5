@@ -6,7 +6,6 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-
 servers:
   - url: https://water-tracker-backend-101-team-5.onrender.com
   - url: http://localhost:8080
@@ -50,14 +49,6 @@ paths:
   /auth/refresh:
     post:
       $ref: '../swagger/path/auth/refresh.yaml'
-  /auth/avatar:
-    patch:
-      $ref: '../swagger/path/auth/avatar.yaml'
-  /auth/user:
-    get:
-      $ref: '../swagger/path/auth/getUser.yaml'
-    patch:
-      $ref: '../swagger/path/auth/updateUser.yaml'
   /auth/send-reset-email:
     post:
       $ref: '../swagger/path/auth/send-reset-email.yaml'
@@ -69,12 +60,103 @@ paths:
       $ref: '../swagger/path/auth/get-google-oauth.yaml'
   /auth/confirm-oauth:
     post:
-      $ref: '../swagger/path/auth/confirm-google-oauth.yaml'
-#   
+      $ref: '../swagger/path/auth/confirm-google-oauth.yaml' 
+  /users/avatar:
+    patch:
+      $ref: '../swagger/path/users/avatar.yaml'
+  /users/profile:
+    get:
+      $ref: '../swagger/path/users/getProfile.yaml'
+  /users/update:
+    patch:
+      $ref: '../swagger/path/users/updateProfile.yaml'
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-#   
+  schemas:
+    User:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        userName:
+          type: string
+          example: 'User'
+        dailyNorma:
+          type: number
+          example: 1500
+        email:
+          type: string
+          example: 'user@example.com'
+        gender:
+          type: string
+          enum: ['Man', 'Woman']
+        photo:
+          type: string
+          example: 'http://example.com/photo.jpg'
+    Water:
+      type: object
+      required:
+        - _id
+        - userId
+        - amount
+        - time
+        - date
+      properties:
+        _id:
+          description: 'Water id'
+          type: string
+          example: 66c4b8bd4719066469ce2d02
+        userId:
+          description: "User's id"
+          type: string
+          example: 66c4b8bd4719066469ce2d02
+        amount:
+          description: 'Amount of water'
+          type: number
+          example: 1500
+        time:
+          description: 'Time of add water'
+          type: string
+          example: '11:35'
+        date:
+          description: 'Date of add water'
+          type: string
+          example: '2024-09-01'
+    monthlyWater:
+      type: object
+      required:
+        - date
+        - totalAmount
+        - servings
+        - dailyNorma
+        - fullfilment
+      properties:
+        date:
+          description: 'Date'
+          type: string
+          example: '2, September'
+        totalAmount:
+          description: 'Total amount of water intake per day (ml)'
+          type: number
+          example: 1200
+        servings:
+          description: 'Total amount of servings water per day'
+          type: number
+          example: 5
+        dailyNorma:
+          description: 'Daily water intake norma selected by the user'
+          type: number
+          example: 1500
+        fullfilment:
+          description: 'Percentage of daily water'
+          type: number
+          example: 50
+responses:
+            $ref: '../swagger/components/responses.yaml'
+        
+  

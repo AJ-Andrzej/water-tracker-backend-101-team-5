@@ -41,7 +41,6 @@
       description: Bad request
     '401':
       description: Unauthorized - Invalid session or token
-    '404':
-      description: Not Found
-    '500':
-      description: Internal Server Error
+    '409':
+      description: Bad Request
+  
