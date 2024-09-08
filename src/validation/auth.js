@@ -14,7 +14,7 @@ export const updateProfileInfoSchema = Joi.object({
   email: Joi.string().email().min(3).max(30),
   currentPassword: Joi.string(),
   newPassword: Joi.string().min(8).max(64),
-}).with('newPassword');
+});
 export const requestResetEmailSchema = Joi.object({
   email: Joi.string().email().required(),
 });

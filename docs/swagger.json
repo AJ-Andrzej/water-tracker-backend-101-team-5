@@ -576,7 +576,7 @@
         },
         "responses": {
           "201": {
-            "description": "../../components/responses/201.yaml"
+            "$ref": "#/components/responses/201"
           },
           "400": {
             "description": "Bad Request"
@@ -780,7 +780,8 @@
             "description": "Bad request"
           },
           "401": {
-            "description": "Unauthorized - Invalid session or token"
+            "description": "Unauthorized - Invalid session or token",
+            "$ref": "#/components/responses/401"
           },
           "409": {
             "description": "Bad Request"
@@ -872,7 +873,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schemas": {
+              "schema": {
                 "type": "object",
                 "properties": {
                   "email": {
@@ -886,11 +887,6 @@
                     "example": "oldPassword123"
                   },
                   "newPassword": {
-                    "type": "string",
-                    "format": "password",
-                    "example": "newPassword123"
-                  },
-                  "confirmPassword": {
                     "type": "string",
                     "format": "password",
                     "example": "newPassword123"
@@ -1094,7 +1090,7 @@
                     "type": "string",
                     "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                   },
-                  "newPassword": {
+                  "password": {
                     "type": "string",
                     "format": "password",
                     "example": "newpassword123"
@@ -1106,7 +1102,8 @@
         },
         "responses": {
           "200": {
-            "description": "Password has been successfully reset"
+            "description": "Password has been successfully reset",
+            "$ref": "#/components/responses/200"
           },
           "400": {
             "description": "Bad Request"
@@ -1127,30 +1124,10 @@
         ],
         "summary": "Get Google OAuth URL",
         "operationId": "getGoogleOAuthUrl",
-        "description": "Retrieve the Google OAuth URL for authentication",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "email"
-                ],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "example": "user@example.com"
-                  }
-                }
-              }
-            }
-          }
-        },
+        "description": "Returns the Google OAuth URL for user authentication.",
         "responses": {
           "200": {
-            "description": "Successfully get Google OAuth url!",
+            "description": "Successfully retrieved Google OAuth URL",
             "content": {
               "application/json": {
                 "schema": {
@@ -1158,7 +1135,8 @@
                   "properties": {
                     "url": {
                       "type": "string",
-                      "description": "Google OAuth URL"
+                      "format": "uri",
+                      "example": "https://accounts.google.com/o/oauth2/auth?client_id=..."
                     }
                   }
                 }
@@ -1166,7 +1144,31 @@
             }
           },
           "400": {
-            "description": "Bad request"
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1238,6 +1240,88 @@
       }
     },
     "responses": {
+      "200": {
+        "description": "Retrieves a list of users",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data",
+                "pagination"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Success!"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/user"
+                  }
+                },
+                "pagination": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "integer",
+                      "example": 100
+                    },
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "perPage": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 10
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "201": {
+        "description": "Creates a user",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 201
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully created a user!"
+                },
+                "data": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          }
+        }
+      },
       "401": {
         "description": "Unauthorized error",
         "content": {
