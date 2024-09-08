@@ -20,17 +20,19 @@ requestBody:
           token:
             type: string
             example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-          newPassword:
+          password:
             type: string
             format: password
             example: newpassword123
 responses:
   '200':
     description: Password has been successfully reset
+    $ref: '../../components/responses/200.yaml'
+
   '400':
     description: Bad Request
   '401':
     $ref: '../../components/responses/401.yaml'
   '404':
     $ref: '../../components/responses/404.yaml'
-  
+

@@ -41,6 +41,6 @@
       description: Bad request
     '401':
       description: Unauthorized - Invalid session or token
+      $ref: '../../components/responses/401.yaml'
     '409':
       description: Bad Request
-  

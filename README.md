@@ -310,11 +310,7 @@ schemas:
           type: string
           format: password
           example: newPassword123
-        confirmPassword:
-          type: string
-          format: password
-          example: newPassword123
-        userName:
+          userName:
           type: string
           example: New User Name
         dailyNorma:

@@ -153,7 +153,6 @@ export const updateProfileInfoController = async (req, res) => {
   const {
     currentPassword,
     newPassword,
-    confirmPassword,
     email,
     userName,
     dailyNorma,
@@ -167,10 +166,6 @@ export const updateProfileInfoController = async (req, res) => {
     );
     if (!isCurrentPasswordValid) {
       throw createHttpError(401, 'Invalid current password');
-    }
-
-    if (newPassword !== confirmPassword) {
-      throw createHttpError(400, 'New password and confirmation do not match');
     }
 
     if (await bcrypt.compare(newPassword, user.password)) {

@@ -25,7 +25,7 @@ requestBody:
               example: password123
 responses:
   '201':
-    description: '../../components/responses/201.yaml'
+    $ref: '../../components/responses/201.yaml'
   '400':
     description: Bad Request
   '409':
