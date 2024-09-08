@@ -45,4 +45,4 @@ responses:
               type: string
               example: Successfully updated a water intakes!
   '404':
-    $ref: ..\..\..\components\responses\404.yaml
+    $ref: "../../../components/responses/404.yaml"

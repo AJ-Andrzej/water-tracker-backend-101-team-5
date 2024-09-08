@@ -3,22 +3,30 @@ tags:
 summary: Register a new user
 operationId: registerUser
 description: Register a new user with the provided details.
+security:
+  - bearerAuth: []
 requestBody:
   required: true
   content:
     application/json:
       schema:
-        $ref: '../../components/schemas.yaml#/schemas/RegisterUserRequest'
+        type: object
+        required:
+            - email
+            - password
+        properties:
+            email:
+              type: string
+              format: email
+              example: user@example.com
+            password:
+              type: string
+              format: password
+              example: password123
 responses:
   '201':
-    description: Successfully registered a user
-    content:
-      application/json:
-        schema:
-          $ref: '../../components/schemas.yaml#/schemas/UserResponse'
+    description: '../../components/responses/201.yaml'
   '400':
     description: Bad Request
   '409':
     description: Conflict
-  '500':
-    description: Internal Server Error

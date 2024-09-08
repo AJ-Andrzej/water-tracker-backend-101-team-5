@@ -1,6 +1,6 @@
 tags:
   - Users
-summary: Get user
+summary: Get user profile
 operationId: getUser
 description: Retrieve the user information of the currently authenticated user.
 security:
