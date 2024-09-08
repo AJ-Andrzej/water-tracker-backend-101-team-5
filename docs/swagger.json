@@ -1193,7 +1193,8 @@
                 "properties": {
                   "code": {
                     "type": "string",
-                    "description": "Google OAuth code"
+                    "description": "Google OAuth code",
+                    "example": "4/0AQlEd8yX0qfBtz5OtyIxdkSXpKPNqstphY8GW-A4W1jzqyvDLhrcB6PhUsbfRC1t3gAqFg"
                   }
                 }
               }
