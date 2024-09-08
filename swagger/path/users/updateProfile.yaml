@@ -9,7 +9,7 @@ requestBody:
   required: true
   content:
     application/json:
-      schemas:
+      schema:
         type: object
         properties:
           email:
@@ -21,10 +21,6 @@ requestBody:
             format: password
             example: oldPassword123
           newPassword:
-            type: string
-            format: password
-            example: newPassword123
-          confirmPassword:
             type: string
             format: password
             example: newPassword123

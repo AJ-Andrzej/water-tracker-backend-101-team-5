@@ -1,32 +1,36 @@
-tags:
-  - Auth
-summary: Get Google OAuth URL
-operationId: getGoogleOAuthUrl
-description: Retrieve the Google OAuth URL for authentication
-requestBody:
-  required: true
-  content:
-    application/json:
-      schema:
-        type: object
-        required:
-        - email
-        properties:
-          email:
-            type: string
-            format: email
-            example: user@example.com
-responses:
-  '200':
-    description: Successfully get Google OAuth url!
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            url:
-              type: string
-              description: Google OAuth URL
-  '400':
-    description: Bad request         
- 
+      tags:
+        - Auth
+      summary: Get Google OAuth URL
+      operationId: getGoogleOAuthUrl
+      description: Returns the Google OAuth URL for user authentication.
+      responses:
+        '200':
+          description: Successfully retrieved Google OAuth URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                      url:
+                        type: string
+                        format: uri
+                        example: https://accounts.google.com/o/oauth2/auth?client_id=...
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                  - message
+                properties:
+                  status:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: Internal Server Error
+
