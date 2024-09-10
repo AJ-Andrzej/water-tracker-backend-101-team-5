@@ -9,15 +9,7 @@ requestBody:
   content:
     application/json:
       schema:
-        type: object
-        required:
-          - dailyNorm
-        properties:
-          dailyNorma:
-            description: 'Daily norma of water'
-            type: number
-            example: 1500
-
+        $ref: ..\..\components\schemas\dailyNormaValidation.yaml
 responses:
   '201':
     description: Set daily norm of water

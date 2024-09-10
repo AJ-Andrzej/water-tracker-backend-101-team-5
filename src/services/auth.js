@@ -11,7 +11,10 @@ import { sendEmail } from '../utils/sendMail.js';
 import { UsersCollection } from '../db/models/user.js';
 import { REFRESH_TOKEN_TTL } from '../constants/index.js';
 import { SessionsCollection } from '../db/models/session.js';
-import { validateCode, getFullNameFromGoogleTokenPayload  } from '../utils/googleOAuth2.js';
+import {
+  validateCode,
+  getFullNameFromGoogleTokenPayload,
+} from '../utils/googleOAuth2.js';
 import { createSession } from '../utils/createSession.js';
 
 // registerUser
@@ -55,6 +58,7 @@ export const loginUser = async (payload) => {
 export const logoutUser = async (sessionId) => {
   await SessionsCollection.deleteOne({ _id: sessionId });
 };
+
 // createSession
 // const createSession = () => {
 //   const accessToken = randomBytes(30).toString('base64');
@@ -67,6 +71,7 @@ export const logoutUser = async (sessionId) => {
 //     refreshTokenValidUntil: new Date(Date.now() + REFRESH_TOKEN_TTL),
 //   };
 // };
+
 // refreshUsersSession
 export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
   const session = await SessionsCollection.findOne({
@@ -170,7 +175,6 @@ export const resetPassword = async (payload) => {
 
 //   const payload = ticket.getPayload();
 
-
 //   if (typeof payload === 'undefined') {
 //     throw createHttpError(401, 'Unauthorized');
 //   }
@@ -231,4 +235,3 @@ export const loginOrSignupWithGoogle = async (code) => {
     ...newSession,
   });
 };
-

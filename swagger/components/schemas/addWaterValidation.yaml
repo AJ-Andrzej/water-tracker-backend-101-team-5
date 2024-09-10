@@ -1,0 +1,14 @@
+type: object
+required:
+  - time
+  - amount
+properties:
+  time:
+    description: Add time of water
+    type: string
+    example: '11:35'
+  amount:
+    description: 'Daily norma of water'
+    type: number
+    maximum: 5000
+    example: 1500

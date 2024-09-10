@@ -186,17 +186,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "dailyNorm"
-                ],
-                "properties": {
-                  "dailyNorma": {
-                    "description": "Daily norma of water",
-                    "type": "number",
-                    "example": 1500
-                  }
-                }
+                "$ref": "#/components/schemas/dailyNormaValidation"
               }
             }
           }
@@ -250,23 +240,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "time",
-                  "amount"
-                ],
-                "properties": {
-                  "time": {
-                    "description": "Add time of water",
-                    "type": "string",
-                    "example": "11:35"
-                  },
-                  "amount": {
-                    "description": "Set amount of water",
-                    "type": "number",
-                    "example": 250
-                  }
-                }
+                "$ref": "#/components/schemas/addWaterValidation"
               }
             }
           }
@@ -553,23 +527,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "example": "user@example.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "format": "password",
-                    "example": "password123"
-                  }
-                }
+                "$ref": "#/components/schemas/userValidation"
               }
             }
           }
@@ -1423,6 +1381,40 @@
       }
     },
     "schemas": {
+      "dailyNormaValidation": {
+        "type": "object",
+        "required": [
+          "dailyNorm"
+        ],
+        "properties": {
+          "dailyNorm": {
+            "description": "Daily norma of water",
+            "type": "number",
+            "maximum": 15000,
+            "example": 1500
+          }
+        }
+      },
+      "addWaterValidation": {
+        "type": "object",
+        "required": [
+          "time",
+          "amount"
+        ],
+        "properties": {
+          "time": {
+            "description": "Add time of water",
+            "type": "string",
+            "example": "11:35"
+          },
+          "amount": {
+            "description": "Daily norma of water",
+            "type": "number",
+            "maximum": 5000,
+            "example": 1500
+          }
+        }
+      },
       "monthlyWater": {
         "type": "object",
         "required": [
@@ -1460,33 +1452,54 @@
           }
         }
       },
+      "userValidation": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "description": "Users email",
+            "type": "string",
+            "format": "email",
+            "example": "user@example.com"
+          },
+          "password": {
+            "description": "Users password",
+            "type": "string",
+            "minimum": 8,
+            "maximum": 64,
+            "example": "asddas12355777"
+          }
+        }
+      },
       "user": {
         "type": "object",
-        "required": "-email - password",
-        "properties": {
-          "userName": {
-            "type": "string"
-          },
-          "example": "User"
-        },
-        "dailyNorma": {
-          "type": "number",
-          "example": 1500
-        },
-        "email": {
-          "type": "string;",
-          "example": "user@example.com"
-        },
-        "gender": {
-          "type": "string;"
-        },
-        "enum": [
-          "Man",
-          "Woman"
+        "required": [
+          "email",
+          "password"
         ],
-        "photo": {
-          "type": "string;",
-          "example": "http://example.com/photo.jpg"
+        "properties": {
+          "dailyNorma": {
+            "type": "number",
+            "example": 1500
+          },
+          "email": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "Man",
+              "Woman"
+            ]
+          },
+          "photo": {
+            "type": "string",
+            "example": "http://example.com/photo.jpg"
+          }
         }
       }
     }

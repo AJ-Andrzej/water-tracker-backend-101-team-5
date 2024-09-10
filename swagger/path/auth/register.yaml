@@ -10,19 +10,7 @@ requestBody:
   content:
     application/json:
       schema:
-        type: object
-        required:
-            - email
-            - password
-        properties:
-            email:
-              type: string
-              format: email
-              example: user@example.com
-            password:
-              type: string
-              format: password
-              example: password123
+        $ref: '..\..\components\schemas\userValidation.yaml'
 responses:
   '201':
     $ref: '../../components/responses/201.yaml'

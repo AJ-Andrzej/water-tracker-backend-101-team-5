@@ -9,19 +9,7 @@ requestBody:
   content:
     application/json:
       schema:
-        type: object
-        required:
-          - time
-          - amount
-        properties:
-          time:
-            description: Add time of water
-            type: string
-            example: '11:35'
-          amount:
-            description: Set amount of water
-            type: number
-            example: 250
+        $ref: ..\..\components\schemas\addWaterValidation.yaml
 
 responses:
   '201':
