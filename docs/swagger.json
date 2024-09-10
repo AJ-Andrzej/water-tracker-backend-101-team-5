@@ -1408,7 +1408,7 @@
             "example": "11:35"
           },
           "amount": {
-            "description": "Daily norma of water",
+            "description": "Set amount of water",
             "type": "number",
             "maximum": 5000,
             "example": 1500
