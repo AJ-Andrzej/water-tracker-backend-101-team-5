@@ -3,7 +3,6 @@ import createHttpError from 'http-errors';
 import { requestResetToken } from '../services/auth.js';
 import { loginOrSignupWithGoogle } from '../services/auth.js';
 
-
 import {
   registerUser,
   loginUser,
@@ -46,10 +45,10 @@ export const registerUserController = async (req, res) => {
 
 // loginUserController
 export const loginUserController = async (req, res) => {
-  const user = await UsersCollection.findOne({ email: req.body.email });
-  if (user !== null) {
-    const session = await loginUser(req.body);
+  const session = await loginUser(req.body);
 
+  if (session) {
+    const user = await UsersCollection.findOne({ email: req.body.email });
     res.cookie('refreshToken', session.refreshToken, {
       httpOnly: true,
       sameSite: 'None',
@@ -150,14 +149,8 @@ export const updateProfileInfoController = async (req, res) => {
     throw createHttpError(404, 'User not found');
   }
 
-  const {
-    currentPassword,
-    newPassword,
-    email,
-    userName,
-    dailyNorma,
-    gender,
-  } = req.body;
+  const { currentPassword, newPassword, email, userName, dailyNorma, gender } =
+    req.body;
 
   if (currentPassword) {
     const isCurrentPasswordValid = await bcrypt.compare(
